@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react'
 import { Link } from 'react-router-dom'
+import { apiKey } from "../const"
 
 class App extends Component {
   constructor() {
@@ -59,5 +60,5 @@ class App extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyDo4_kf5fVb13_-dbRDXp0uFt4Lv3L9PPg")
+  apiKey
 })(App)
