@@ -22,8 +22,7 @@ router.get(`/events/:id?`, ({ params: { id } , body}, res) => {
     })
   }
 
-  //TODO startTime, endTime, name filters
-  pool.query(`SELECT * FROM Events;`, (err, data) => {
+  pool.query(`SELECT id, creatorId, startTime, endTime, latitude, longitude FROM Events;`, (err, data) => {
     if (err) {
       res.error(err)
     } else {
@@ -40,8 +39,7 @@ router.get(`/users/:id?`, ({ params: { id } , body}, res) => {
     })
   }
 
-  //TODO email, username, name filters
-  pool.query(`SELECT id, email, username, name, phone, bio, image FROM Users;`, (err, data) => {
+  pool.query(`SELECT id, username, name FROM Users;`, (err, data) => {
     if (err) {
       res.error(err)
     } else {
