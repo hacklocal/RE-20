@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
-import { apiKey } from "../const"
-import { styles } from "../styleMap"
 import { Link } from "react-router-dom"
+import { apiKey, image } from "../const"
+import { styles } from "../styleMap"
 import { InfoWindowEx as InfoWindow } from "./InfoWindowEx"
+import DayPicker from 'react-day-picker';
+
+import 'react-day-picker/lib/style.css';
+
 
 class App extends Component {
   constructor() {
@@ -11,9 +15,13 @@ class App extends Component {
     this.state = {
       markers: [],
       infoLat: 44.708408,
-      infoLng: 10.623389
+      infoLng: 10.623389,
+      newEvent: false,
+      removed: null,
+      image: null
     }
     this.handleMapClick = this.handleMapClick.bind(this)
+    this.onMarkerClick = this.onMarkerClick.bind(this)
   }
 
   fakeEvents = [
@@ -31,62 +39,97 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.setState({ markers: this.fakeEvents })
+    this.setState({
+      markers: this.fakeEvents,
+      image
+     })
+  }
+
+  onMarkerClick = (props, marker, e) => {
+    this.setState({
+      infoLat: marker.position.lat(),
+      infoLng: marker.position.lng(),
+      infoShow: true,
+      newEvent: false,
+      removed: marker.title
+    })
   }
 
   handleMapClick = (mapProps, map, clickEvent) => {
     this.setState({
       infoLat: clickEvent.latLng.lat(),
       infoLng: clickEvent.latLng.lng(),
-      infoShow: true
+      infoShow: true,
+      newEvent: true,
+      removed: null
     })
-
   }
 
   render() {
     return (
-      <Map google={this.props.google} className="mainMap"
-        zoom={15}
-        minZoom={11}
-        initialCenter={{
-          lat: 44.697926,
-          lng: 10.630456
-        }}
-        onClick={this.handleMapClick}
-        styles={styles}
-        >
-        <InfoWindow
-          position={{
-            lat: this.state.infoLat,
-            lng: this.state.infoLng,
-            infoShow: true
+      <div>
+        <div className="navBar">
+          <h2>Filter Event</h2>
+          <input type="text" placeholder="search..."/>
+          <DayPicker />
+          {
+            this.state.markers.map(e => (
+              <div>
+                <h3>{ e.title }</h3>
+              </div>
+            ))
+          }
+        </div>
+        <Map
+          google={ this.props.google }
+          className="mainMap"
+          zoom={ 15 }
+          minZoom={ 11 }
+          initialCenter={{
+            lat: 44.697926,
+            lng: 10.630456
           }}
-          visible = { this.state.infoShow }
+          onClick={ this.handleMapClick }
+          styles={ styles }
+          disableDefaultUI = { true }
           >
-          <input type="button" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
-        </InfoWindow>
+          <InfoWindow
+            position={{
+              lat: this.state.infoLat,
+              lng: this.state.infoLng,
+              infoShow: true
+            }}
+            visible = { this.state.infoShow }
+            >
+            {
+              this.state.newEvent ?
+                <input type="button" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
+                :
+                <div onClick={() => this.props.history.push(`/event/${this.state.removed}`)}>
+                  <img src = {`data:image/png;base64, ${this.state.image}`}/><span>{this.state.removed}</span>
+                </div>
+            }
+          </InfoWindow>
 
-        {
-          this.state.markers.map((e, i) => {
-          //   console.log(e);
-            return(
-                <Marker
-                  key={i}
-                  title={ e.title }
-                  name={ e.title }
-                  position={{lat: e.lat, lng: e.lng}}
-                  onClick={() => this.props.history.push(`/event/${e.title}`)}
-                  />
-          )
-          // return <p>ciao</p>
-        })
-        }
-      </Map>
+          {
+            this.state.markers.filter(e => this.state.removed !== e.title).map((e, i) => {
+              return(
+                  <Marker
+                    key = { i }
+                    title = { e.title }
+                    name = { e.title }
+                    position = {{lat: e.lat, lng: e.lng}}
+                    onClick = { this.onMarkerClick }
+                    />
+            )
+          })
+          }
+        </Map>
+    </div>
     )
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey,
-  styles
+  apiKey
 })(App)
