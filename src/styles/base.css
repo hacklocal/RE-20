@@ -91,7 +91,8 @@ body {
   border-radius: 8px; }
 
 fieldset {
-  border: none; }
+  border: none;
+  margin-top: 10px; }
 
 legend {
   font-size: 1.2em;
@@ -105,7 +106,7 @@ select {
   -webkit-appearance: menulist-button;
   height: 35px; }
 
-input[type="text"], input[type="email"], input[type="number"], textarea, select {
+input[type="text"], input[type="email"], input[type="number"], .ReactTags__tagInputField, textarea, select {
   border: none;
   border-radius: 4px;
   font-size: 15px;
@@ -121,7 +122,7 @@ input[type="text"], input[type="email"], input[type="number"], textarea, select 
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
   margin: 0 0 30px;
   resize: vertical; }
-  input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+  input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, .ReactTags__tagInputField:focus, textarea:focus, select:focus {
     background: #d2d9dd; }
 
 .number {
@@ -153,6 +154,34 @@ input[type="submit"], input[type="button"] {
   cursor: pointer; }
   input[type="submit"]:hover, input[type="button"]:hover {
     background: #5e25db; }
+
+.ReactTags__tags {
+  position: relative;
+  border-radius: 50%; }
+
+.ReactTags__tag {
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  background: #e8eeef;
+  color: #828383;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  margin-left: 5px; }
+
+.ReactTags__selected, .ReactTags__remove {
+  color: #aaa;
+  margin-left: 5px;
+  cursor: pointer; }
+
+#thumb-container {
+  text-align: center; }
+
+#thumb {
+  max-width: 450px;
+  margin-top: 10px; }
 
 body {
   margin: 0;

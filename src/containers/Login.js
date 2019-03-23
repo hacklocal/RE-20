@@ -24,7 +24,7 @@ class Login extends Component {
             ["email", "password"].map((field, legend) => (
               <fieldset>
                 <legend>
-                  <span className = { "number" }>{ legend + 1 }</span> Email:
+                  <span className = { "number" }>{ legend + 1 }</span> {field}:
                 </legend>
                 <input type = { field } onChange = { this.handleTextboxUpdate.bind(this) } placeholder = { `Inserisci la tua ${field}` }/>
               </fieldset>
