@@ -1,11 +1,20 @@
 import React, { Component } from "react"
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
+import { WithContext as ReactTags } from 'react-tag-input'
 import { apiKey } from "../const"
-import queryString from "query-string"
+
+const KeyCodes = {
+  enter: 13
+}
+
+const delimiters = [KeyCodes.enter]
+
 class NewEvent extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      tags: [],
+      image: {},
       lat: null,
       lng: null
     }
@@ -18,6 +27,46 @@ class NewEvent extends Component {
       lng: urlParams.get("lng")
     })
   }
+
+  handleUpload(e) {
+    console.log("ciao")
+    const { name, type } = e.target.files[0]
+    const reader = new window.FileReader()
+    reader.readAsDataURL(e.target.files[0])
+    reader.onloadend = () => {
+      this.setState({
+        image: {
+          name,
+          type,
+          base64: reader.result
+        }
+      })
+    }
+  }
+
+  handleDelete(i) {
+    const { tags } = this.state;
+    this.setState({
+      tags: tags.filter((tag, index) => index !== i),
+    });
+  }
+
+  handleAddition(tag) {
+    this.setState(state => ({ tags: [...state.tags, tag] }));
+  }
+
+  handleDrag(tag, currPos, newPos) {
+    const tags = [...this.state.tags];
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    this.setState({ tags: newTags });
+  }
+
+
 
   render() {
     const { lat, lng } = this.state
@@ -35,14 +84,28 @@ class NewEvent extends Component {
               </fieldset>
               <fieldset>
                 <legend>
-                  <span className = { "number" }>2</span> Informazioni aggiuntive:
+                  <span className = { "number" }>2</span> Requisiti:
                 </legend>
+                <ReactTags tags={this.state.tags}
+                   handleDelete={this.handleDelete.bind(this)}
+                   handleAddition={this.handleAddition.bind(this)}
+                   handleDrag={this.handleDrag.bind(this)}
+                   delimiters={delimiters}
+                   placeholder = { "Aggiungi un nuovo requisito" }
+                   autofocus = { false }
+                />
               </fieldset>
               <fieldset>
                 <legend>
                   <span className="number">3</span> Immagine:
                 </legend>
-                <input type = { "file" } />
+                <input type = { "file" } onChange = { this.handleUpload.bind(this) }/>
+                {
+                  this.state.image &&
+                    <div id = { "thumb-container" }>
+                      <img src = { this.state.image.base64 } id = { "thumb" }/>
+                    </div>
+                }
               </fieldset>
               <input type="submit" value="Submit"/>
               <Map
@@ -62,4 +125,5 @@ class NewEvent extends Component {
     )
   }
 }
+
 export default GoogleApiWrapper({ apiKey })(NewEvent)
