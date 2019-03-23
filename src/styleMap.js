@@ -1,4 +1,4 @@
-export const style = [
+export const styles = [
   {
     "elementType": "geometry",
     "stylers": [
