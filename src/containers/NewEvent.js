@@ -1,8 +1,14 @@
 import React, { Component } from "react"
+<<<<<<< HEAD
 
+=======
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
+import { apiKey } from "../const"
+import queryString from "query-string"
+>>>>>>> 7a1a8f96ff6abce8e4cda87a44d80b669bb6ee09
 class NewEvent extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       lat: null,
       lng: null
@@ -18,17 +24,46 @@ class NewEvent extends Component {
   }
 
   render() {
+    const { lat, lng } = this.state
     return (
-      <div>
-        <h1>Create new Event</h1>
+      <div id = { "new-event" }>
         <form>
-          <span>Name</span><input type="text" /><br />
-          <span>Description</span><input type="text" /><br />
-          <span>Image</span><input type="file" accept=".jpg"/>
+          <div id = { "form" }>
+            <form>
+              <fieldset>
+                <legend>
+                  <span className = { "number" }>1</span> Informazioni:
+                </legend>
+                <input type = { "text" } placeholder = { "Nome" }/>
+                <textarea placeholder = { "Descrizione" }/>
+              </fieldset>
+              <fieldset>
+                <legend>
+                  <span className = { "number" }>2</span> Informazioni aggiuntive:
+                </legend>
+              </fieldset>
+              <fieldset>
+                <legend>
+                  <span className="number">3</span> Immagine:
+                </legend>
+                <input type = { "file" } />
+              </fieldset>
+              <input type="submit" value="Submit"/>
+              <Map
+                google = { this.props.google }
+                style = {{ width: "400px", height: "400px", borderRadius: "50%" }}
+                zoom = { 15 }
+                minZoom = { 11 }
+                initialCenter = {{
+                  lat,
+                  lng
+                }}
+              />
+            </form>
+          </div>
         </form>
       </div>
     )
   }
 }
-
-export default NewEvent
+export default GoogleApiWrapper({ apiKey })(NewEvent)

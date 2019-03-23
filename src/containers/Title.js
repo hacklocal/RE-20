@@ -1,13 +1,7 @@
 import React from 'react'
-
+import logo from "../assets/logo.png"
 const Title = () => (
-  <h1 id="Title">
-    Reggio E-20
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </h1>
+  <img id = { "logo" } src = { logo }/>
 )
 
 export default Title
