@@ -111,12 +111,31 @@ router.post("/authentication", ({ body: { email, password } }, res) => {
 
 router.post("/events", authMiddleware, ({ body, token }, res) => {
   body.creatorId = token.id
+  const { assets } = body
+  delete body.assets
+
   //todo check event starttime and endtime
   pool.query(`INSERT INTO Events SET ?`, body, (err, results) => {
     if (err) {
       res.error(err)
     } else {
-      res.status(201).json({ message: "event created" })
+      let assetsProcessed = 0
+      let error = false
+      assets.forEach((e, i, arr) => {
+        pool.query(`INSERT INTO Assets VALUES(DEFAULT, ${results.insertId}, FALSE, DEFAULT, ${pool.escape(e)});`, (err, results) => {
+          if (err) {
+            error = true
+          }
+          assetsProcessed++;
+          if (assetsProcessed === arr.length) {
+            if (error) {
+              res.error("Error creating assets for event.")
+            } else {
+              res.status(201).json({ message: "event created" })
+            }
+          }
+        })
+      })
     }
   })
 })
@@ -137,7 +156,7 @@ router.delete("/events/:id", authMiddleware, ({ params: { id }, token }, res) =>
 
 router.post("/events/:id/users", authMiddleware, ({ params: { id }, token}, res) => {
   //todo check event starttime and endtime (event must not be expired)
-  pool.query(`INSERT INTO Users_Events_th VALUES(DEFAULT, ${token.id}, ${pool.escape(id)}`, (err, results) => {
+  pool.query(`INSERT INTO Users_Events_th VALUES(DEFAULT, ${token.id}, ${pool.escape(id)});`, (err, results) => {
     if (err) {
       res.error(err)
     } else {
@@ -167,6 +186,7 @@ router.get(`/events/:id/assets`, ({ params: { id } }, res) => {
   })
 })
 
+//todo many checks :/
 router.post(`/events/:eventId/assets/:assetId`, authMiddleware, ({ params: { eventId, assetId }, body, token }, res) => {
   pool.query(`SELECT checked FROM Assets WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
     if (err) {

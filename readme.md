@@ -1,10 +1,15 @@
-dependencies:<br>
+#RE-20
+##Installation:
+First install dependencies:<br>
 ```
 docker
 mysql
 node
 ```
+Then install node modules:<br>
+`npm i`
 
+Add database config to project root.<br>
 Example config (`db-config.json`):<br>
 ```
 {
@@ -14,3 +19,16 @@ Example config (`db-config.json`):<br>
   "database": "Hackathon"
 }
 ```
+
+Add `secret.json` to project root. Example:
+```
+{
+  "secret": "mySecretString"
+}
+```
+
+Start mysql docker container and create database:<br>
+```
+
+```
+
