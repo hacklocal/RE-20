@@ -187,7 +187,7 @@ router.get(`/events/:id/assets`, ({ params: { id } }, res) => {
 })
 
 //todo many checks :/
-router.post(`/events/:eventId/assets/:assetId`, authMiddleware, ({ params: { eventId, assetId }, body, token }, res) => {
+router.post(`/events/:eventId/assets/:assetId`, authMiddleware, ({ params: { eventId, assetId }, token }, res) => {
   pool.query(`SELECT checked FROM Assets WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
     if (err) {
       res.error(err)
@@ -196,7 +196,7 @@ router.post(`/events/:eventId/assets/:assetId`, authMiddleware, ({ params: { eve
         return res.error("Asset already checked")
       }
 
-      pool.query(`UPDATE Assets SET checked=${pool.escape(body.checked)}, checkedBy=${token.id} WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
+      pool.query(`UPDATE Assets SET checked=TRUE, checkedBy=${token.id} WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
         if (err) {
           res.error(err)
         } else {
