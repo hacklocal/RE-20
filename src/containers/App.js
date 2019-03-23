@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react'
-import { Link } from 'react-router-dom'
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
 import { apiKey } from "../const"
-import { style } from "../styleMap"
+import { styles } from "../styleMap"
+import { Link } from "react-router-dom"
+import { InfoWindowEx as InfoWindow } from "./InfoWindowEx"
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      markers: []
+      markers: [],
+      infoLat: 44.708408,
+      infoLng: 10.623389
     }
+    this.handleMapClick = this.handleMapClick.bind(this)
   }
 
   fakeEvents = [
@@ -27,19 +31,41 @@ class App extends Component {
 
 
   componentDidMount() {
-    const markers = []
     this.setState({ markers: this.fakeEvents })
+  }
+
+  handleMapClick = (mapProps, map, clickEvent) => {
+    this.setState({
+      infoLat: clickEvent.latLng.lat(),
+      infoLng: clickEvent.latLng.lng(),
+      infoShow: true
+    })
+
   }
 
   render() {
     return (
       <Map google={this.props.google} className="mainMap"
         zoom={15}
+        minZoom={11}
         initialCenter={{
           lat: 44.697926,
           lng: 10.630456
         }}
+        onClick={this.handleMapClick}
+        styles={styles}
         >
+        <InfoWindow
+          position={{
+            lat: this.state.infoLat,
+            lng: this.state.infoLng,
+            infoShow: true
+          }}
+          visible = { this.state.infoShow }
+          >
+          <input type="button" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
+        </InfoWindow>
+
         {
           this.state.markers.map((e, i) => {
           //   console.log(e);
@@ -62,5 +88,5 @@ class App extends Component {
 
 export default GoogleApiWrapper({
   apiKey,
-  style
+  styles
 })(App)

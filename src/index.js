@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./containers/App"
 import Title from "./containers/Title"
-import Evento from "./containers/Event"
+import Event from "./containers/Event"
+import NewEvent from "./containers/NewEvent"
 
 import "./styles/base.min.css"
 
@@ -15,6 +16,7 @@ ReactDOM.render(
   <Router history={history}>
     <Title />
     <Route exact path="/" component={ App } />
-    <Route path="/event/:eventName" render={(props) => <Evento {...props} />}/>
+    <Route path="/event/:eventName" render={(props) => <Event {...props} />}/>
+    <Route exact path="/new-event" render={ props => <NewEvent />}/>
   </Router>
   , document.getElementById('root'));
