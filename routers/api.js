@@ -14,7 +14,7 @@ const pool = mysql.createPool({
 
 module.exports = pool
 
-router.get(`/events/:id?`, ({ params: { id } , body}, res) => {
+router.get(`/events/:id?`, ({ params: { id } }, res) => {
   if (typeof id !== "undefined") {
     return pool.query(`SELECT * FROM Events WHERE id=${pool.escape(id)};`, (err, data) => {
       if (err) res.error(err)
@@ -31,7 +31,7 @@ router.get(`/events/:id?`, ({ params: { id } , body}, res) => {
   })
 })
 
-router.get(`/users/:id?`, ({ params: { id } , body}, res) => {
+router.get(`/users/:id?`, ({ params: { id } }, res) => {
   if (typeof id !== "undefined") {
     return pool.query(`SELECT id, email, username, name, phone, bio, image FROM Users WHERE id=${pool.escape(id)};`, (err, data) => {
       if (err) res.error(err)
@@ -48,7 +48,7 @@ router.get(`/users/:id?`, ({ params: { id } , body}, res) => {
   })
 })
 
-router.get(`/users/:id/events`, ({ params: { id } , body}, res) => {
+router.get(`/users/:id/events`, ({ params: { id } }, res) => {
     pool.query(`SELECT userId, eventId FROM Users_Events_th WHERE userId=${pool.escape(id)};`, (err, data) => {
       if (err) {
         res.error(err)
@@ -58,7 +58,7 @@ router.get(`/users/:id/events`, ({ params: { id } , body}, res) => {
     })
 })
 
-router.get(`/events/:id/users`, ({ params: { id } , body}, res) => {
+router.get(`/events/:id/users`, ({ params: { id } }, res) => {
   pool.query(`SELECT userId, eventId FROM Users_Events_th WHERE eventId=${pool.escape(id)};`, (err, data) => {
     if (err) {
       res.error(err)
@@ -123,7 +123,7 @@ router.post("/events", authMiddleware, ({ body, token }, res) => {
 
 router.delete("/events/:id", authMiddleware, ({ params: { id }, token }, res) => {
   //todo check event starttime and endtime (event must not be expired)
-  pool.query(`DELETE FROM Events WHERE id = ${pool.escape(id)} AND creatorId = ${pool.escape(token.id)}`, (err, results) => {
+  pool.query(`DELETE FROM Events WHERE id = ${pool.escape(id)} AND creatorId = ${token.id}`, (err, results) => {
     if (err) {
       res.error(err)
     } else {
@@ -137,7 +137,7 @@ router.delete("/events/:id", authMiddleware, ({ params: { id }, token }, res) =>
 
 router.post("/events/:id/users", authMiddleware, ({ params: { id }, token}, res) => {
   //todo check event starttime and endtime (event must not be expired)
-  pool.query(`INSERT INTO Users_Events_th VALUES(DEFAULT, ${token.id}, ${id}`, (err, results) => {
+  pool.query(`INSERT INTO Users_Events_th VALUES(DEFAULT, ${token.id}, ${pool.escape(id)}`, (err, results) => {
     if (err) {
       res.error(err)
     } else {
@@ -153,6 +153,36 @@ router.delete("/events/:id/users", authMiddleware, ({ params: { id }, token}, re
       res.error(err)
     } else {
       res.status(201).json({ message: "event attended by user" })
+    }
+  })
+})
+
+router.get(`/events/:id/assets`, ({ params: { id } }, res) => {
+  pool.query(`SELECT * FROM Assets WHERE eventId=${pool.escape(id)};`, (err, data) => {
+    if (err) {
+      res.error(err)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+router.post(`/events/:eventId/assets/:assetId`, authMiddleware, ({ params: { eventId, assetId }, body, token }, res) => {
+  pool.query(`SELECT checked FROM Assets WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
+    if (err) {
+      res.error(err)
+    } else {
+      if (typeof data[0] === "undefined" || data[0].checked) {
+        return res.error("Asset already checked")
+      }
+
+      pool.query(`UPDATE Assets SET checked=${pool.escape(body.checked)}, checkedBy=${token.id} WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
+        if (err) {
+          res.error(err)
+        } else {
+          res.json(data)
+        }
+      })
     }
   })
 })

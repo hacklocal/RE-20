@@ -35,5 +35,16 @@ CREATE TABLE IF NOT EXISTS Users_Events_th (
   eventId INT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (userId) REFERENCES Users(id),
+  FOREIGN KEY (eventId) REFERENCES Events(id),
+  CONSTRAINT userId_eventId_unique UNIQUE (userId, eventId)
+);
+
+CREATE TABLE IF NOT EXISTS Assets (
+  id INT AUTO_INCREMENT,
+  eventId INT NOT NULL,
+  checked TINYINT(1) NOT NULL DEFAULT FALSE,
+  checkedBy INT DEFAULT 0,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id),
   FOREIGN KEY (eventId) REFERENCES Events(id)
-)
+);
