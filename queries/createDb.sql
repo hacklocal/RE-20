@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Events (
   CHECK (startTime <= endTime)
 );
 
-CREATE TABLE IF NOT EXISTS Users_Event_th (
+CREATE TABLE IF NOT EXISTS Users_Events_th (
   id INT AUTO_INCREMENT,
   userId INT NOT NULL,
   eventId INT NOT NULL,

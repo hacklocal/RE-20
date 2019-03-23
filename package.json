@@ -2,7 +2,7 @@
   "name": "hackathon",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "reset-db": "mysql -h 127.0.0.1 -P 3306 -u root --password=password < ./queries/dropDb.sql && mysql -h 127.0.0.1 -u root --password=password < ./queries/createDb.sql",
     "create-db": "mysql -h 127.0.0.1 -u root --password=password < ./queries/createDb.sql",

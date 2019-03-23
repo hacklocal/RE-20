@@ -50,6 +50,26 @@ router.get(`/users/:id?`, ({ params: { id } , body}, res) => {
   })
 })
 
+router.get(`/users/:id/events`, ({ params: { id } , body}, res) => {
+    pool.query(`SELECT userId, eventId FROM Users_Events_th WHERE userId=${pool.escape(id)};`, (err, data) => {
+      if (err) {
+        res.error(err)
+      } else {
+        res.json(data)
+      }
+    })
+})
+
+router.get(`/events/:id/users`, ({ params: { id } , body}, res) => {
+  pool.query(`SELECT userId, eventId FROM Users_Events_th WHERE eventId=${pool.escape(id)};`, (err, data) => {
+    if (err) {
+      res.error(err)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
 router.post("/users", ({ body }, res) => {
   body.password = hashPassword(`${body.password}`)
 
@@ -91,11 +111,9 @@ router.post("/authentication", ({ body: { email, password } }, res) => {
   })
 })
 
-//todo autorization, set event creator
-router.post("/events", ({ body }, res) => {
-  console.log(body)
-  body.creatorId = 1 //todo remove, set real creator
-  //todo verify body fields (schema validator)
+router.post("/events", authMiddleware, ({ body, token }, res) => {
+  body.creatorId = token.id
+  //todo check event starttime and endtime
   pool.query(`INSERT INTO Events SET ?`, body, (err, results) => {
     if (err) {
       res.error(err)
@@ -105,31 +123,38 @@ router.post("/events", ({ body }, res) => {
   })
 })
 
-//todo auth, check event creator
-router.delete("/events/:id", ({ params: { id }, headers }, res) => {
-  console.log(headers)
-  //todo verify body fields (schema validator)                (check event creator)
-  pool.query(`DELETE FROM Events WHERE id = ${pool.escape(id)}`, (err, results) => {
+router.delete("/events/:id", authMiddleware, ({ params: { id }, token }, res) => {
+  //todo check event starttime and endtime (event must not be expired)
+  pool.query(`DELETE FROM Events WHERE id = ${pool.escape(id)} AND creatorId = ${pool.escape(token.id)}`, (err, results) => {
     if (err) {
       res.error(err)
     } else {
       if (results.affectedRows)
         res.status(201).json({ message: "event deleted" })
       else
-        res.error(`No event with id ${id}`)
+        res.error(`no event with id ${id} and creatorId ${token.id} exists`)
     }
   })
 })
 
-//TODO THESE need to be finished (jwt middleware)
-//todo auth
-router.post("/events/:id/users", ({ params: { id } }, res) => {
-  //todo verify body fields (schema validator)
-  pool.query(`INSERT INTO Users_Event_th VALUES(DEFAULT, ${1/*todo add user id*/}, ${id}`, (err, results) => {
+router.post("/events/:id/users", authMiddleware, ({ params: { id }, token}, res) => {
+  //todo check event starttime and endtime (event must not be expired)
+  pool.query(`INSERT INTO Users_Events_th VALUES(DEFAULT, ${token.id}, ${id}`, (err, results) => {
     if (err) {
       res.error(err)
     } else {
-      res.status(201).json({ message: "event created" })
+      res.status(201).json({ message: "event attended by user" })
+    }
+  })
+})
+
+router.delete("/events/:id/users", authMiddleware, ({ params: { id }, token}, res) => {
+  //todo check event starttime and endtime (event must not be expired /started?)
+  pool.query(`DELETE FROM Users_Events_th WHERE userId = ${token.id} AND eventId = ${id}`, (err, results) => {
+    if (err) {
+      res.error(err)
+    } else {
+      res.status(201).json({ message: "event attended by user" })
     }
   })
 })
