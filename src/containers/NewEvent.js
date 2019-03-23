@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import queryString from "query-string"
+
 class NewEvent extends Component {
   constructor() {
     super()
