@@ -8,9 +8,11 @@ body {
 }
 
 #logo {
-width: 150px;
-  margin-top: 50px;
-  margin-left: 50px;
+  width: 150px;
+  margin-top: 25px;
+  margin-left: 25px;
+  position: absolute;
+  top: 0;
 }
 
 h1 span {
@@ -62,8 +64,10 @@ h1 span:nth-child(4){
 
 .mainMap {
   width: 75vw !important;
-  position: sticky;
+  position: absolute;
   left: 0;
+  top: 0;
+  z-index: -1;
 }
 
 @media screen and (max-width: 400px) {

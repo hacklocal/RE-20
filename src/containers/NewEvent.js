@@ -1,11 +1,7 @@
 import React, { Component } from "react"
-<<<<<<< HEAD
-
-=======
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
 import { apiKey } from "../const"
-import queryString from "query-string"
->>>>>>> 7a1a8f96ff6abce8e4cda87a44d80b669bb6ee09
+
 class NewEvent extends Component {
   constructor(props) {
     super(props)

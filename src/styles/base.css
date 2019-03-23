@@ -155,17 +155,15 @@ input[type="submit"], input[type="button"] {
     background: #5e25db; }
 
 body {
-  margin: 0; }
-
-.mainMap {
-  position: relative;
-  height: 50vh;
-  margin-bottom: 50%; }
+  margin: 0;
+  overflow: hidden; }
 
 #logo {
   width: 150px;
-  margin-top: 50px;
-  margin-left: 50px; }
+  margin-top: 25px;
+  margin-left: 25px;
+  position: absolute;
+  top: 0; }
 
 h1 span {
   width: 7px;
@@ -199,3 +197,28 @@ h1 span:nth-child(4) {
   border-radius: 35%;
   left: 17.5%;
   transform: rotate(-45deg); }
+
+.navBar {
+  width: 23vw;
+  height: 100vh;
+  background-color: #fff;
+  float: right;
+  text-align: center;
+  overflow: auto; }
+
+.mainMap {
+  width: 75vw !important;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1; }
+
+@media screen and (max-width: 400px) {
+  .navBar {
+    display: block;
+    width: 100vw; }
+  .mainMap {
+    display: block !important;
+    width: 100vw !important;
+    height: 50vh !important;
+    z-index: 1; } }
