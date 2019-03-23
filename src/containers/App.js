@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
-import { Link } from "react-router-dom"
 import { apiKey, image } from "../const"
 import { styles } from "../styleMap"
 import { InfoWindowEx as InfoWindow } from "./InfoWindowEx"
@@ -17,11 +16,13 @@ class App extends Component {
       infoLat: 44.708408,
       infoLng: 10.623389,
       newEvent: false,
-      removed: null,
+      removed: [],
       image: null
     }
     this.handleMapClick = this.handleMapClick.bind(this)
     this.onMarkerClick = this.onMarkerClick.bind(this)
+    this.mouseEnter = this.mouseEnter.bind(this)
+    this.mouseLeave = this.mouseLeave.bind(this)
   }
 
   fakeEvents = [
@@ -37,7 +38,6 @@ class App extends Component {
     { lat: 44.6983888, lng: 10.6240057, title: "Bosnia" },
   ]
 
-
   componentDidMount() {
     this.setState({
       markers: this.fakeEvents,
@@ -51,7 +51,8 @@ class App extends Component {
       infoLng: marker.position.lng(),
       infoShow: true,
       newEvent: false,
-      removed: marker.title
+      removed: [marker.title],
+      featured: null
     })
   }
 
@@ -61,21 +62,32 @@ class App extends Component {
       infoLng: clickEvent.latLng.lng(),
       infoShow: true,
       newEvent: true,
-      removed: null
+      removed: []
     })
+  }
+
+  mouseEnter(marker) {
+    this.setState({featured: marker})
+  }
+
+  mouseLeave(marker) {
+    this.setState({featured: null})
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
         <div className="navBar">
           <h2>Filter Event</h2>
           <input type="text" placeholder="search..."/>
           <DayPicker />
           {
             this.state.markers.map(e => (
-              <div>
+              <div
+                onMouseLeave = { () => this.mouseLeave(e) }
+                onMouseEnter = { () => this.mouseEnter(e) }>
                 <h3>{ e.title }</h3>
+                <hr/>
               </div>
             ))
           }
@@ -112,7 +124,8 @@ class App extends Component {
           </InfoWindow>
 
           {
-            this.state.markers.filter(e => this.state.removed !== e.title).map((e, i) => {
+            !this.state.featured ?
+            this.state.markers.filter(e => !this.state.removed.includes(e.title)).map((e, i) => {
               return(
                   <Marker
                     key = { i }
@@ -123,6 +136,12 @@ class App extends Component {
                     />
             )
           })
+          :
+          <Marker
+            title = { this.state.featured.title }
+            name = { this.state.featured.title }
+            position = {{lat: this.state.featured.lat, lng: this.state.featured.lng}}
+            />
           }
         </Map>
     </div>
