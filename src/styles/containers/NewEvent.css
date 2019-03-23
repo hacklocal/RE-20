@@ -2,23 +2,20 @@ body {
   background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("http://mirafra.com/wp-content/uploads/2016/10/2214585-google-maps-wallpaper.jpg");
   font-family: 'Roboto', sans-serif; }
 
-#login {
+#form {
   max-width: 500px;
+  min-height: 850px;
   background: #f4f7f8;
   margin: 10px auto;
   padding: 20px;
   border-radius: 8px; }
-
-h1 {
-  text-align: center; }
 
 fieldset {
   border: none; }
 
 legend {
   font-size: 1.2em;
-  margin-bottom: 10px;
-  text-transform: capitalize; }
+  margin-bottom: 10px; }
 
 label {
   display: block;
@@ -28,7 +25,7 @@ select {
   -webkit-appearance: menulist-button;
   height: 35px; }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="number"], textarea, select {
+input[type="text"], input[type="email"], input[type="number"], textarea, select {
   border: none;
   border-radius: 4px;
   font-size: 15px;
@@ -44,7 +41,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="num
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
   margin: 0 0 30px;
   resize: vertical; }
-  input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+  input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
     background: #d2d9dd; }
 
 .number {

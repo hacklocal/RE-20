@@ -3,16 +3,13 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-#login {
+#form {
   max-width: 500px;
+  min-height: 850px;
   background: #f4f7f8;
   margin: 10px auto;
   padding: 20px;
   border-radius: 8px;
-}
-
-h1 {
-  text-align: center;
 }
 
 fieldset{
@@ -22,7 +19,6 @@ fieldset{
 legend {
   font-size: 1.2em;
   margin-bottom: 10px;
-  text-transform: capitalize;
 }
 
 label {
@@ -35,7 +31,7 @@ select{
   height:35px;
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="number"], textarea, select {
+input[type="text"], input[type="email"], input[type="number"], textarea, select {
   border: none;
   border-radius: 4px;
   font-size: 15px;
