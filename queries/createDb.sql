@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS Hackathon;
+
+USE Hackathon;
+
+CREATE TABLE IF NOT EXISTS Users (
+  id INT AUTO_INCREMENT,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  bio TEXT,
+  image TEXT,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Events (
+  id INT AUTO_INCREMENT,
+  creatorId INT NOT NULL,
+  eventName VARCHAR(255) NOT NULL,
+  eventDescription TEXT,
+  longitude VARCHAR(15) NOT NULL,
+  latitude VARCHAR(15) NOT NULL,
+  startTime TIMESTAMP NOT NULL DEFAULT NOW(),
+  endTime TIMESTAMP NOT NULL DEFAULT NOW(),
+  image TEXT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (creatorId) REFERENCES Users(id),
+  CHECK (startTime <= endTime)
+);

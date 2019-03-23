@@ -1,0 +1,5 @@
+.idea
+.vcs
+.DS_Store
+node_modules
+db-config.json

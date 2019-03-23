@@ -1,0 +1,21 @@
+{
+  "name": "hackathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "create-db": "mysql -h 127.0.0.1 -u root --password=password < ./queries/createDb.sql",
+    "drop-db": "mysql -h 127.0.0.1 -P 3306 -u root --password=password < ./queries/dropDb.sql",
+    "container-up": "docker run -p 3306:3306 --name mysql-container -e MYSQL_ROOT_PASSWORD=password -d mysql:5.7",
+    "container-down": "docker kill mysql-container && docker container rm mysql-container"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@soluzioni-futura/eslint-config-soluzioni-futura": "^1.0.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.16.0"
+  }
+}
