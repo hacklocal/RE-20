@@ -1,0 +1,171 @@
+body {
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("http://mirafra.com/wp-content/uploads/2016/10/2214585-google-maps-wallpaper.jpg");
+  font-family: 'Roboto', sans-serif;
+  overflow: scroll !important; }
+
+#event {
+  max-width: 500px;
+  background: #f4f7f8;
+  margin: 10px auto;
+  padding: 20px;
+  border-radius: 8px; }
+
+#image-container {
+  text-align: center; }
+
+#image {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%; }
+
+fieldset {
+  border: none;
+  margin-top: 10px; }
+
+legend {
+  font-size: 1.2em;
+  margin-bottom: 10px; }
+
+label {
+  display: block;
+  margin-bottom: 8px; }
+
+select {
+  -webkit-appearance: menulist-button;
+  height: 35px; }
+
+input[type="text"], input[type="email"], input[type="number"], textarea, select {
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  outline: 0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background: #e8eeef;
+  color: #828383;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  margin: 0 0 30px; }
+
+#description {
+  resize: none; }
+
+.number {
+  background: #471ea0;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-radius: 15px 15px 15px 0px; }
+
+input[type="submit"], input[type="button"] {
+  position: relative;
+  display: block;
+  padding: 10px 39px 10px 39px;
+  color: #FFF;
+  background: #471ea0;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  width: 100%;
+  border: 1px solid #471ea0;
+  border-radius: 25px;
+  margin: 0 auto 10px;
+  cursor: pointer; }
+  input[type="submit"]:hover, input[type="button"]:hover {
+    background: #5e25db; }
+
+.inputGroup {
+  background-color: #e8eeef;
+  display: block;
+  margin: 10px 0;
+  position: relative; }
+  .inputGroup label {
+    padding: 12px 30px;
+    width: 100%;
+    display: block;
+    text-align: left;
+    color: #3C454C;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: color 200ms ease-in;
+    overflow: hidden; }
+    .inputGroup label:before {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      content: '';
+      background-color: #471ea0;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale3d(1, 1, 1);
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      z-index: -1; }
+    .inputGroup label:after {
+      width: 32px;
+      height: 32px;
+      content: '';
+      border: 2px solid #D1D7DC;
+      background-color: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+      background-repeat: no-repeat;
+      background-position: 2px 3px;
+      border-radius: 50%;
+      z-index: 2;
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      transition: all 200ms ease-in; }
+  .inputGroup input:checked ~ label {
+    color: #fff; }
+    .inputGroup input:checked ~ label:before {
+      transform: translate(-50%, -50%) scale3d(56, 56, 1);
+      opacity: 1; }
+    .inputGroup input:checked ~ label:after {
+      background-color: #54E0C7;
+      border-color: #54E0C7; }
+  .inputGroup input {
+    width: 32px;
+    height: 32px;
+    order: 1;
+    z-index: 2;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    visibility: hidden; }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; }
+
+html {
+  box-sizing: border-box; }
+
+#partecipants {
+  display: flex;
+  align-items: center; }
+
+.profile-pic {
+  width: 100px;
+  border-radius: 50%;
+  margin-left: 10px;
+  cursor: pointer; }
+
+#submit {
+  padding-top: 20px; }
