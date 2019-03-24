@@ -9,3 +9,7 @@ export const getEvent = id => fetch(`http://192.168.43.212:8000/api/events/${id}
 export const getEventPartecipants = id => fetch(`http://192.168.43.212:8000/api/events/${id}/users`)
   .then(res => res.json())
   .catch(console.log)
+
+export const getEventAssets = id => fetch(`http://192.168.43.212:8000/api/events/${id}/assets`)
+  .then(res => res.json())
+  .catch(console.log)

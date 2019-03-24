@@ -94,7 +94,20 @@ class NewEvent extends Component {
               </fieldset>
               <fieldset>
                 <legend>
-                  <span className="number">3</span> Immagine:
+                  <span className = { "number" }>3</span> Categoria:
+                </legend>
+                <select>
+                  <option>Sport</option>
+                  <option>Social</option>
+                  <option>Arte e Cultura</option>
+                  <option>Manifestazioni</option>
+                  <option>Innovazione</option>
+                  <option>Altro</option>
+                </select>
+              </fieldset>
+              <fieldset>
+                <legend>
+                  <span className="number">4</span> Immagine:
                 </legend>
                 <input type = { "file" } onChange = { this.handleUpload.bind(this) }/>
                 {
