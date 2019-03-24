@@ -98,27 +98,6 @@ h2 {
 
 }
 
-@media screen and (max-width: 400px) {
-  .navBar {
-    display: block;
-    width: 100vw;
-  }
-
-  #logo {
-    width: 75px;
-    margin: 0;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-  }
-
-  .mainMap {
-    display: block !important;
-    width: 100vw !important;
-    height: 50vh !important;
-  }
-}
-
 #search {
   border-radius: 25px;
   margin: 0 20px;
@@ -140,5 +119,35 @@ input[type="submit"], input[type="button"] {
   cursor: pointer;
   &:hover {
     background: #5e25db;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .navBar {
+    width: 100vw;
+    margin-top: 50vh;
+
+  }
+
+  #logo {
+    width: 75px;
+    margin: 0;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  .mainMap {
+    width: 100vw !important;
+    height: 50vh !important;
+    border-right: 0;
+    box-shadow: 0;
+  }
+
+  #addButton {
+    font-size: 0.75em;
+    width: 100px;
+    padding: 5px;
   }
 }

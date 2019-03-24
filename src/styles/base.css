@@ -362,7 +362,26 @@ input[type="submit"], input[type="button"] {
 #map {
   position: absolute;
   top: 5%;
-  left: 70%; }
+  left: 70%;
+  width: 400px;
+  height: 400px; }
+
+@media screen and (max-width: 500px) {
+  #map {
+    width: 300px !important;
+    height: 300px !important;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 100px; }
+  #submitButton {
+    float: left;
+    height: 50px;
+    width: 250px;
+    margin-top: 350px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 2px; } }
 
 body {
   margin: 0;
@@ -445,21 +464,6 @@ h2 {
   border-right: solid 1vw #471ea0;
   box-shadow: 2px 4px 4px 4px #ccc; }
 
-@media screen and (max-width: 400px) {
-  .navBar {
-    display: block;
-    width: 100vw; }
-  #logo {
-    width: 75px;
-    margin: 0;
-    position: absolute;
-    right: 5px;
-    top: 5px; }
-  .mainMap {
-    display: block !important;
-    width: 100vw !important;
-    height: 50vh !important; } }
-
 #search {
   border-radius: 25px;
   margin: 0 20px; }
@@ -480,3 +484,23 @@ input[type="submit"], input[type="button"] {
   cursor: pointer; }
   input[type="submit"]:hover, input[type="button"]:hover {
     background: #5e25db; }
+
+@media screen and (max-width: 500px) {
+  .navBar {
+    width: 100vw;
+    margin-top: 50vh; }
+  #logo {
+    width: 75px;
+    margin: 0;
+    position: absolute;
+    right: 5px;
+    top: 5px; }
+  .mainMap {
+    width: 100vw !important;
+    height: 50vh !important;
+    border-right: 0;
+    box-shadow: 0; }
+  #addButton {
+    font-size: 0.75em;
+    width: 100px;
+    padding: 5px; } }

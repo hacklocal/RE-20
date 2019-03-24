@@ -154,7 +154,7 @@ class App extends Component {
             >
             {
               this.state.newEvent ?
-                <input type="button" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
+                <input type="button" id="addButton" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
                 :
                 <div onClick={() => this.props.history.push(`/events/${this.state.removedId}`)}>
                   <img src = {`data:image/png;base64, ${this.state.image}`}/><span>{this.state.removed}</span>
