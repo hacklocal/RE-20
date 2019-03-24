@@ -182,8 +182,8 @@ class NewEvent extends Component {
                   disableDefaultUI = { true }
                 >
                   <Marker position={{
-                      lat: this.state.lat,
-                      lng: this.state.lng
+                    lat: this.state.lat,
+                    lng: this.state.lng
                   }}/>
                 </Map>
             </div>
