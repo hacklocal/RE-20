@@ -15,17 +15,15 @@ body {
 #profile-pic {
   text-align: center;
   border-radius: 50%;
-  width: 15vw;
-  height: 15vw;
+  width: 250px;
+  height: 250px;
   background-color: #e8eeef;
-  position: absolute;
-  top: 8vw;
-  left: 42.5vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+
 }
 
-#form {
-  padding-top: 18vw;
-}
 #input-pic {
   padding-bottom: 10px;
 }
@@ -185,15 +183,10 @@ input[type="submit"], input[type="button"] {
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   box-sizing: border-box;
 }
+
 #partecipants {
   display: flex;
   align-items: center;

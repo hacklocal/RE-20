@@ -74,7 +74,9 @@ input[type="submit"], input[type="button"] {
   border: 1px solid #471ea0;
   border-radius: 25px;
   margin: 0 auto 10px;
-  cursor: pointer; }
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 1.5px; }
   input[type="submit"]:hover, input[type="button"]:hover {
     background: #5e25db; }
 
@@ -92,6 +94,10 @@ body {
 
 #image-container {
   text-align: center; }
+
+#voter {
+  margin-left: 50%;
+  transform: translateX(-50%); }
 
 #image {
   width: 250px;
@@ -131,6 +137,7 @@ input[type="text"], input[type="email"], input[type="number"], textarea, select 
   margin: 0 0 30px; }
 
 #description {
+  margin-top: 10px;
   height: 80px;
   resize: none; }
 
@@ -163,6 +170,10 @@ input[type="submit"], input[type="button"] {
   cursor: pointer; }
   input[type="submit"]:hover, input[type="button"]:hover {
     background: #5e25db; }
+
+#voter {
+  text-align: center !important;
+  margin: 20px !important; }
 
 .inputGroup {
   background-color: #e8eeef;
@@ -398,15 +409,12 @@ body {
 #profile-pic {
   text-align: center;
   border-radius: 50%;
-  width: 15vw;
-  height: 15vw;
+  width: 250px;
+  height: 250px;
   background-color: #e8eeef;
-  position: absolute;
-  top: 8vw;
-  left: 42.5vw; }
-
-#form {
-  padding-top: 18vw; }
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%); }
 
 #input-pic {
   padding-bottom: 10px; }
@@ -543,11 +551,6 @@ input[type="submit"], input[type="button"] {
     cursor: pointer;
     visibility: hidden; }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box; }
-
 html {
   box-sizing: border-box; }
 
@@ -591,39 +594,6 @@ h3:hover {
   top: 0;
   z-index: 2; }
 
-h1 span {
-  width: 7px;
-  height: 23px;
-  position: absolute; }
-
-h1 span:nth-child(1) {
-  background-color: #27AE60;
-  border-radius: 25%;
-  left: 16%;
-  transform: rotate(45deg);
-  z-index: 1;
-  box-shadow: 1px 1px rgba(0, 0, 0, 0.25); }
-
-h1 span:nth-child(2) {
-  background-color: #27AE60;
-  left: 16%;
-  border-radius: 25%;
-  transform: rotate(-45deg); }
-
-h1 span:nth-child(3) {
-  background-color: #56CCF2;
-  box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
-  z-index: 1;
-  border-radius: 35%;
-  left: 17.5%;
-  transform: rotate(45deg); }
-
-h1 span:nth-child(4) {
-  background-color: #56CCF2;
-  border-radius: 35%;
-  left: 17.5%;
-  transform: rotate(-45deg); }
-
 h2 {
   color: #471ea0;
   font-size: 1.35em; }
@@ -647,7 +617,9 @@ h2 {
 
 #search {
   border-radius: 25px;
-  margin: 0 20px; }
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px; }
 
 input[type="submit"], input[type="button"] {
   position: relative;
@@ -665,6 +637,13 @@ input[type="submit"], input[type="button"] {
   cursor: pointer; }
   input[type="submit"]:hover, input[type="button"]:hover {
     background: #5e25db; }
+
+#thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  float: left;
+  margin-right: 5px; }
 
 @media screen and (max-width: 500px) {
   .navBar {

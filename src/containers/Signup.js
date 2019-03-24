@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { signup } from "../helpers/api.js"
+import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
 class Signup extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Signup extends Component {
       name: "",
       phone: "",
       bio: "",
+      address: "",
       image: {}
     }
   }
@@ -39,8 +41,11 @@ class Signup extends Component {
       name: this.state.name,
       phone: this.state.phone,
       bio: this.state.bio,
-      image: this.state.image.base64
+      image: this.state.image.base64,
+      address: this.state.address
     })
+    .then(console.log)
+    .catch(console.log)
     /*createEvent({
       name: this.state.name,
       description: this.state.description,
@@ -68,9 +73,9 @@ class Signup extends Component {
           <h1>Registrati</h1>
             {
               this.state.image.base64 ?
-                <img id = { "profile-pic" } src = { this.state.image.base64 }/>
+              <img id = { "profile-pic" } src = { this.state.image.base64 } />
               :
-                <div id = { "profile-pic" }/>
+              <div id = { "profile-pic" }></div>
             }
             <div id = { "form" }>
               <form>
@@ -106,17 +111,27 @@ class Signup extends Component {
               </fieldset>
               <fieldset>
                 <legend>
-                  <span className = { "number" }>6</span> Numero di telefono:
+                  <span className = { "number" }>6</span> Indirizzo:
+                </legend>
+                <input id = { "address" } value = { this.state.address } onChange = { this.handleTextboxUpdate.bind(this) } type = { "text" } placeholder = { "Inserisci la tua via" }/>
+              </fieldset>
+              <fieldset>
+                <legend>
+                  <span className = { "number" }>7</span> Numero di telefono:
                 </legend>
                 <input id = { "phone" } value = { this.state.phone } onChange = { this.handleTextboxUpdate.bind(this) } type = { "text" } placeholder = { "Inserisci il numero di telefono" }/>
               </fieldset>
               <fieldset>
                 <legend>
-                  <span className = { "number" }>7</span> Bio:
+                  <span className = { "number" }>8</span> Bio:
                 </legend>
                 <textarea id = { "bio" } onChange = { this.handleTextboxUpdate.bind(this) } value = { this.state.bio } placeholder = { "Inserisci una tua breve biografia" }/>
               </fieldset>
               <input type="submit"  onClick = { this.handleSubmit.bind(this) } value="Registrati ora!"/>
+              <div>
+                <GoogleLoginButton style={{width: "47%", float: "left"}}/>
+                <FacebookLoginButton style={{width: "47%", float: "right"}}/>
+              </div>
             </form>
           </div>
       </div>

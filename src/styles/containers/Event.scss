@@ -16,6 +16,10 @@ body {
   text-align: center;
 }
 
+#voter {
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
 
 #image {
   width: 250px;
@@ -61,6 +65,7 @@ input[type="text"], input[type="email"], input[type="number"], textarea, select 
 }
 
 #description {
+  margin-top: 10px;
   height: 80px;
   resize: none;
 }
@@ -96,6 +101,11 @@ input[type="submit"], input[type="button"] {
   &:hover {
     background: #5e25db;
   }
+}
+
+#voter {
+  text-align: center !important;
+  margin: 20px !important;
 }
 
 .inputGroup {

@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 import { login } from "../helpers/api.js"
+import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+
 
 class Login extends Component {
   constructor(props) {
@@ -19,11 +21,17 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
+    const urlParams = new URLSearchParams(window.location.search);
+
     login(this.state.email, this.state.password)
       .then(({ token }) => {
         if (token) {
           sessionStorage.setItem("token", token)
-          this.props.history.push("/home")
+          if(urlParams.get("lat") && urlParams.get("lng")) {
+            this.props.history.push(`/new-event?lat=${urlParams.get("lat")}&lng=${urlParams.get("lng")}`)
+          } else {
+            this.props.history.push("/")
+          }
         } else {
           this.setState({
             buttonText: "Username o password errate. Ritenta."
@@ -48,7 +56,14 @@ class Login extends Component {
               </fieldset>
             ))
           }
-          <input type = { "submit" } onClick = { this.handleSubmit.bind(this) } value = { this.state.buttonText }/>
+          <input type = { "submit" } onClick = { this.handleSubmit.bind(this) } value = { this.state.buttonText } />
+          <input type = { "button" } onClick = { () => this.props.history.push("/signup") } value = { "Sign-Up" } />
+          <fieldset>
+          <div>
+            <GoogleLoginButton style={{width: "47%", float: "left"}}/>
+            <FacebookLoginButton style={{width: "47%", float: "right"}}/>
+          </div>
+        </fieldset>
         </form>
       </div>
     )

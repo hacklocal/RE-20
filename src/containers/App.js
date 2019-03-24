@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
 import { Link } from "react-router-dom"
-import { apiKey, image } from "../const"
+import { apiKey } from "../const"
 import { styles } from "../styleMap"
 import { InfoWindowEx as InfoWindow } from "./InfoWindowEx"
 import DayPicker from 'react-day-picker'
@@ -46,8 +46,7 @@ class App extends Component {
           colour: e.colour
         }))
         this.setState({
-          markers,
-          image
+          markers
         })
     })
   }
@@ -60,8 +59,17 @@ class App extends Component {
       newEvent: false,
       removed: marker.title,
       featured: null,
-      removedId: marker.id
+      removedId: marker.id,
+      image: null
     })
+
+    fetch(`http://192.168.43.212:8000/api/events/${marker.id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          image: data.image
+        })
+      })
   }
 
   handleMapClick = (mapProps, map, clickEvent) => {
@@ -143,21 +151,28 @@ class App extends Component {
               lng: this.state.infoLng,
               infoShow: true
             }}
-            maxWidth = { 200 }
+            maxWidth = { 250 }
             visible = { this.state.infoShow }
             onClose = { () => {
               this.setState({
                 removed: [],
-                infoShow: false
+                infoShow: false,
+                image: null
                })
             } }
             >
             {
               this.state.newEvent ?
-                <input type="button" id="addButton" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
+                <input type="button" id="addButton" value="Add new Event" onClick={() => {
+                    if(window.sessionStorage.getItem("token")) {
+                      this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)
+                    } else {
+                      this.props.history.push(`/login?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)
+                    }
+                  }} />
                 :
                 <div onClick={() => this.props.history.push(`/events/${this.state.removedId}`)}>
-                  <img src = {`data:image/png;base64, ${this.state.image}`}/><span>{this.state.removed}</span>
+                  <span><img src = { this.state.image } id = "thumbnail" align = "middle"/></span><span style={{lineBreak: "loose", fontWeight: "700"}}>{this.state.removed}</span>
                 </div>
             }
           </InfoWindow>
@@ -165,7 +180,6 @@ class App extends Component {
           {
             !this.state.featured ?
             this.state.markers.filter(e => !(this.state.removed.includes(e.title) || this.state.removedByData.includes(e.title))).map(e => {
-              console.log(`../assets/${e.colour}.png`);
               return(
                   <Marker
                     key = { e.id }
