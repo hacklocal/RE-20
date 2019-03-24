@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
+import { Link } from "react-router-dom"
 import { apiKey, image } from "../const"
 import { styles } from "../styleMap"
 import { InfoWindowEx as InfoWindow } from "./InfoWindowEx"
@@ -26,7 +27,7 @@ class App extends Component {
   }
 
   fakeEvents = [
-    { lat: 44.708408, lng: 10.623389, title: "Pizzata" },
+    { lat: 44.701345973205605, lng: 10.623389, title: "Pizzata" },
     { lat: 44.694094, lng: 10.616430, title: "Cena" },
     { lat: 44.688608, lng: 10.638696, title: "Partita bella" },
     { lat: 44.702015, lng: 10.648172, title: "Kangarou" },
@@ -39,10 +40,25 @@ class App extends Component {
   ]
 
   componentDidMount() {
-    this.setState({
-      markers: this.fakeEvents,
-      image
-     })
+    fetch("http://192.168.43.212:8000/api/events")
+      .then(res => res.json())
+      .then(data => {
+        const markers = data.map(e => ({
+          title: e.name,
+          lat: +e.latitude,
+          lng: +e.longitude,
+          start: e.startTime,
+          end: e.endTime,
+          id: e.id
+        }))
+
+        this.setState({
+          markers,
+          image
+        })
+      console.log(this.state.markers);
+    })
+    // this.setState({markers: this.fakeEvents})
   }
 
   onMarkerClick = (props, marker, e) => {
@@ -83,12 +99,14 @@ class App extends Component {
           <DayPicker />
           {
             this.state.markers.map(e => (
-              <div
-                onMouseLeave = { () => this.mouseLeave(e) }
-                onMouseEnter = { () => this.mouseEnter(e) }>
-                <h3>{ e.title }</h3>
-                <hr/>
-              </div>
+              <Link to = { `/event/${e.title}` } style={{ textDecoration: "none", color: "#471ea0"}} key = { e.id }>
+                <div
+                  onMouseLeave = { () => this.mouseLeave(e) }
+                  onMouseEnter = { () => this.mouseEnter(e) }>
+                  <h3>{ e.title }</h3>
+                  <hr/>
+                </div>
+              </Link>
             ))
           }
         </div>
@@ -126,9 +144,10 @@ class App extends Component {
           {
             !this.state.featured ?
             this.state.markers.filter(e => !this.state.removed.includes(e.title)).map((e, i) => {
+              console.log(e.id, e.title, typeof e.lat, typeof e.lng)
               return(
                   <Marker
-                    key = { i }
+                    key = { e.id }
                     title = { e.title }
                     name = { e.title }
                     position = {{lat: e.lat, lng: e.lng}}

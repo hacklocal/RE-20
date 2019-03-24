@@ -105,23 +105,25 @@ class NewEvent extends Component {
                 }
               </fieldset>
               <input type="submit" value="Submit"/>
-              <Map
-                google = { this.props.google }
-                style = {{ width: "400px", height: "400px", borderRadius: "50%" }}
-                zoom = { 16 }
-                minZoom = { 11 }
-                initialCenter = {{
-                  lat: this.state.lat,
-                  lng: this.state.lng
-                }}
-                styles={ styles }
-                disableDefaultUI = { true }
-              >
-                <Marker position={{
+              <div style={{textAlign: "center", justifyContent: "center"}}>
+                <Map
+                  google = { this.props.google }
+                  style = {{ width: "400px", height: "400px", borderRadius: "50%" }}
+                  zoom = { 16 }
+                  minZoom = { 11 }
+                  initialCenter = {{
                     lat: this.state.lat,
                     lng: this.state.lng
-                }}/>
-              </Map>
+                  }}
+                  styles={ styles }
+                  disableDefaultUI = { true }
+                >
+                  <Marker position={{
+                      lat: this.state.lat,
+                      lng: this.state.lng
+                  }}/>
+                </Map>
+            </div>
             </form>
           </div>
         </form>

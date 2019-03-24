@@ -8,7 +8,8 @@ body {
   background: #f4f7f8;
   margin: 10px auto;
   padding: 20px;
-  border-radius: 8px; }
+  border-radius: 8px;
+  height: 900px; }
 
 fieldset {
   border: none;
