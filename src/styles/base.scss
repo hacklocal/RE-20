@@ -10,11 +10,15 @@ body {
 
 h3 {
   margin: 0px;
-  padding: 5px;
+  padding: 15px;
+  font-size: 1.1em;
+  border-top: 3px solid #471ea0;
+  box-shadow: 5px 5px 5px 3px #ccc;
+  text-transform: uppercase;
 }
 
 h3:hover {
-  font-size: 1.5em;
+  color: #5e25db;
 }
 
 .container {
@@ -69,10 +73,15 @@ h1 span:nth-child(4){
   transform: rotate(-45deg);
 }
 
+h2 {
+  color: #471ea0;
+  font-size: 1.35em;
+}
+
 .navBar {
-  width: 24vw;
+  width: 25vw;
   height: 100vh;
-  background-color: #fff;
+  background-color: #f4f7f8;
   float: right;
   text-align: center;
   overflow: auto;
@@ -107,5 +116,29 @@ h1 span:nth-child(4){
     display: block !important;
     width: 100vw !important;
     height: 50vh !important;
+  }
+}
+
+#search {
+  border-radius: 25px;
+  margin: 0 20px;
+}
+
+input[type="submit"], input[type="button"] {
+  position: relative;
+  display: block;
+  padding: 10px 39px 10px 39px;
+  color: #FFF;
+  background: #471ea0;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  width: 100%;
+  border: 1px solid #471ea0;
+  border-radius: 25px;
+  margin: 10px auto 10px;
+  cursor: pointer;
+  &:hover {
+    background: #5e25db;
   }
 }

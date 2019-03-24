@@ -1,9 +1,6 @@
 import React, { Component } from "react"
-import {Map} from "google-maps-react";
-import logo from "../assets/logo.png"
-import { chunk } from "../helpers/utils.js"
 import { getEvent, getEventPartecipants, getEventAssets, postAsset, attendEvent } from "../helpers/api.js"
-import { Row, Col } from "react-bootstrap"
+
 class Event extends Component {
   constructor(props) {
     super(props)
@@ -92,8 +89,8 @@ class Event extends Component {
         </fieldset>
         <div id = { "partecipants" }>
           {
-            this.state.partecipants.map(partecipant => (
-              <img src = { partecipant.image } className = { "profile-pic" }/>
+            this.state.partecipants.map(({name, image}) => (
+              <img src = { image } title = { name } className = { "profile-pic" }/>
             ))
           }
         </div>

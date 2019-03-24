@@ -4,23 +4,24 @@ import { Link } from "react-router-dom"
 import { apiKey, image } from "../const"
 import { styles } from "../styleMap"
 import { InfoWindowEx as InfoWindow } from "./InfoWindowEx"
-import DayPicker from 'react-day-picker';
+import DayPicker from 'react-day-picker'
 
 import 'react-day-picker/lib/style.css';
 
-
 class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       markers: [],
+      images: [],
       infoLat: 44.708408,
       infoLng: 10.623389,
       newEvent: false,
       removed: [],
       image: null,
       removedId: null,
-      removedByData: []
+      removedByData: [],
+      filter: ""
     }
     this.handleMapClick = this.handleMapClick.bind(this)
     this.onMarkerClick = this.onMarkerClick.bind(this)
@@ -90,6 +91,7 @@ class App extends Component {
     this.setState({
       removed: this.state.markers.filter(({ title }) => !title.toLowerCase().startsWith(event.target.value.toLowerCase())).map(e => e.title),
       removedId: null,
+      filter: event.target.value.toLowerCase(),
       infoShow: false
     })
   }
@@ -106,17 +108,17 @@ class App extends Component {
     return (
       <div className="container">
         <div className="navBar">
-          <h2>Filter Event</h2>
-          <input type = "text" placeholder = "search..." onChange = { this.search }/>
+          <h2>FILTRA GLI EVENTI:</h2>
+          <div id = { "search" }><input type = "text" placeholder = "Cerca..." onChange = { this.search }/></div>
           <DayPicker onDayClick = { this.changeDate }/>
           {
-            this.state.markers.map(e => (
+            this.state.markers.filter(({ title }) => title.toLowerCase().startsWith(this.state.filter)).map(e => (
               <Link to = { `/events/${e.id}` } style={{ textDecoration: "none", color: "#471ea0"}} key = { e.id }>
                 <div
+                  className = { "events-list" }
                   onMouseLeave = { () => this.mouseLeave(e) }
                   onMouseEnter = { () => this.mouseEnter(e) }>
                   <h3>{ e.title }</h3>
-                  <hr/>
                 </div>
               </Link>
             ))
@@ -141,6 +143,7 @@ class App extends Component {
               lng: this.state.infoLng,
               infoShow: true
             }}
+            maxWidth = { 200 }
             visible = { this.state.infoShow }
             onClose = { () => {
               this.setState({

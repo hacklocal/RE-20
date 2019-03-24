@@ -44,7 +44,7 @@ class NewEvent extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    console.log({
+    createEvent({
       name: this.state.name,
       description: this.state.description,
       latitude: this.state.lat,
@@ -55,7 +55,7 @@ class NewEvent extends Component {
       endTime: +new Date(this.state.endTime),
       category: this.state.category,
       image: this.state.image.base64
-    })
+    }).then(console.log)
   }
 
   handleTextboxUpdate({ target: { id, value } }) {
