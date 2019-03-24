@@ -13,10 +13,10 @@ export const login = (email, password) => fetch(`${apiUrl}/api/authentication`, 
   .then(res => res.json())
   .catch(console.error)
 
-export const signup = user => fetch(`${apiUrl}/api/users`, {
+export const signup = (user, jwt) => fetch(`${apiUrl}/api/users`, {
   method: "POST",
   headers: {
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTUzMzk2ODE1fQ.mWTbKPlTAmCXDVLa-jPHEkGCPSXpu3dnVijx58lDIFPoVB8SChMXTo-gAOr4mS1Up6wB0ihyr_U9qcJUE1zuDQ",
+    "Authorization": `Bearer ${jwt}`,
     "Content-Type": "application/json"
   },
   body: JSON.stringify(user)
@@ -36,28 +36,28 @@ export const getEventAssets = id => fetch(`${apiUrl}/api/events/${id}/assets`)
   .then(res => res.json())
   .catch(console.error)
 
-export const postAsset = (eventId, assetId) => fetch(`${apiUrl}/api/events/${eventId}/assets/${assetId}`, {
+export const postAsset = (eventId, assetId, jwt) => fetch(`${apiUrl}/api/events/${eventId}/assets/${assetId}`, {
   method: "POST",
   headers: {
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTUzMzk2ODE1fQ.mWTbKPlTAmCXDVLa-jPHEkGCPSXpu3dnVijx58lDIFPoVB8SChMXTo-gAOr4mS1Up6wB0ihyr_U9qcJUE1zuDQ"
+    "Authorization": `Bearer ${jwt}`
   }
 })
   .then(res => res.json())
   .catch(console.error)
 
-export const attendEvent = eventId => fetch(`${apiUrl}/api/events/${eventId}/users`, {
+export const attendEvent = (eventId, jwt) => fetch(`${apiUrl}/api/events/${eventId}/users`, {
   method: "POST",
   headers: {
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTUzMzk2ODE1fQ.mWTbKPlTAmCXDVLa-jPHEkGCPSXpu3dnVijx58lDIFPoVB8SChMXTo-gAOr4mS1Up6wB0ihyr_U9qcJUE1zuDQ"
+    "Authorization": `Bearer ${jwt}`
   }
 })
   .then(res => res.json())
   .catch(console.error)
 
-export const createEvent = event => fetch(`${apiUrl}/api/events`, {
+export const createEvent = (event, jwt) => fetch(`${apiUrl}/api/events`, {
   method: "POST",
   headers: {
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTUzMzk2ODE1fQ.mWTbKPlTAmCXDVLa-jPHEkGCPSXpu3dnVijx58lDIFPoVB8SChMXTo-gAOr4mS1Up6wB0ihyr_U9qcJUE1zuDQ",
+    "Authorization": `Bearer ${jwt}`,
     "Content-Type": "application/json"
   },
   body: JSON.stringify(event)

@@ -55,8 +55,7 @@ class NewEvent extends Component {
       endTime: +new Date(this.state.endTime),
       category: this.state.category,
       image: this.state.image.base64
-    })
-    .then(data => {
+    }, sessionStorage.getItem("token")).then(data => {
       console.log(data)
       this.props.history.push("/")
     })
@@ -183,8 +182,8 @@ class NewEvent extends Component {
                   disableDefaultUI = { true }
                 >
                   <Marker position={{
-                      lat: this.state.lat,
-                      lng: this.state.lng
+                    lat: this.state.lat,
+                    lng: this.state.lng
                   }}/>
                 </Map>
             </div>
