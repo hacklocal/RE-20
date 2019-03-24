@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 })
 
-app.options("*", () => {
+app.options("*", (req, res) => {
   res.send(200)
 })
 
