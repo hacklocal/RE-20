@@ -24,6 +24,7 @@ class Event extends Component {
       .then(assets => assets.map(({ name, id, checked }) => ({ name, id, checked })))
       .then(assets => {
         const selectedAssets = {}
+        console.log(assets);
         assets.forEach(({ id }) => selectedAssets[id] = false)
         this.setState({ assets, selectedAssets })
       })
@@ -39,20 +40,25 @@ class Event extends Component {
   }
 
   handleSubmit(e) {
-    const eventId = document.URL.split("/")[4]
-    e.preventDefault()
-    const selectedAssets = Object.entries(this.state.selectedAssets).map(asset => {
-      if (asset[1]) {
-        return asset[0]
+    if(!window.sessionStorage.getItem("token"))
+      this.props.history.push("/login")
+    else {
+      const eventId = document.URL.split("/")[4]
+      e.preventDefault()
+      const selectedAssets = Object.entries(this.state.selectedAssets).map(asset => {
+        if (asset[1]) {
+          return asset[0]
+        }
+      }).filter(e => e).map(e => parseInt(e))
+      if(selectedAssets) {
+        Promise.all([...selectedAssets.map(asset => postAsset(eventId, asset, sessionStorage.getItem("token"))), attendEvent(eventId)])
+        .then(console.log)
+        .catch(console.log)
+      } else {
+        attendEvent(eventId, sessionStorage.getItem("token")).then(console.log)
       }
-    }).filter(e => e).map(e => parseInt(e))
-    if(this.selectedAssets) {
-      selectedAssets.map(asset => postAsset(eventId, asset, sessionStorage.getItem("token")))
-      Promise.all([...selectedAssets, attendEvent(eventId)]).then(console.log)
-    } else {
-      attendEvent(eventId, sessionStorage.getItem("token")).then(console.log)
+      this.props.history.push("/")
     }
-    this.props.history.push("/")
   }
 
   render() {
