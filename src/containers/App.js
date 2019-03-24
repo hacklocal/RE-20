@@ -19,12 +19,15 @@ class App extends Component {
       newEvent: false,
       removed: [],
       image: null,
-      removedId: null
+      removedId: null,
+      removedByData: []
     }
     this.handleMapClick = this.handleMapClick.bind(this)
     this.onMarkerClick = this.onMarkerClick.bind(this)
     this.mouseEnter = this.mouseEnter.bind(this)
     this.mouseLeave = this.mouseLeave.bind(this)
+    this.search = this.search.bind(this)
+    this.changeDate = this.changeDate.bind(this)
   }
 
   componentDidMount() {
@@ -37,9 +40,10 @@ class App extends Component {
           lng: parseFloat(e.longitude),
           start: e.startTime,
           end: e.endTime,
-          id: e.id
+          id: e.id,
+          categoryName: e.categoryName,
+          colour: e.colour
         }))
-
         this.setState({
           markers,
           image
@@ -71,11 +75,31 @@ class App extends Component {
   }
 
   mouseEnter(marker) {
-    this.setState({featured: marker})
+    this.setState({
+      featured: marker,
+      infoShow: false
+    })
   }
 
   mouseLeave(marker) {
     this.setState({featured: null})
+  }
+
+  search(event) {
+    // console.log(this.state.markers.filter(({ title }) => !title.toLowerCase().startsWith(event.target.value.toLowerCase())))
+    this.setState({
+      removed: this.state.markers.filter(({ title }) => !title.toLowerCase().startsWith(event.target.value.toLowerCase())).map(e => e.title),
+      removedId: null,
+      infoShow: false
+    })
+  }
+
+  changeDate(day) {
+    this.setState((prevState) => {
+      return {
+        removedByData: this.state.markers.filter(e => ! (new Date(e.start).getDay() === new Date(day).getDay() && new Date(e.start).getMonth() === new Date(day).getMonth())).map(e => e.title)
+      }
+    })
   }
 
   render() {
@@ -83,8 +107,8 @@ class App extends Component {
       <div className="container">
         <div className="navBar">
           <h2>Filter Event</h2>
-          <input type="text" placeholder="search..."/>
-          <DayPicker />
+          <input type = "text" placeholder = "search..." onChange = { this.search }/>
+          <DayPicker onDayClick = { this.changeDate }/>
           {
             this.state.markers.map(e => (
               <Link to = { `/events/${e.id}` } style={{ textDecoration: "none", color: "#471ea0"}} key = { e.id }>
@@ -118,6 +142,12 @@ class App extends Component {
               infoShow: true
             }}
             visible = { this.state.infoShow }
+            onClose = { () => {
+              this.setState({
+                removed: [],
+                infoShow: false
+               })
+            } }
             >
             {
               this.state.newEvent ?
@@ -131,7 +161,8 @@ class App extends Component {
 
           {
             !this.state.featured ?
-            this.state.markers.filter(e => !this.state.removed.includes(e.title)).map(e => {
+            this.state.markers.filter(e => !(this.state.removed.includes(e.title) || this.state.removedByData.includes(e.title))).map(e => {
+              console.log(`../assets/${e.colour}.png`);
               return(
                   <Marker
                     key = { e.id }
