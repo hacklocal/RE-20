@@ -21,7 +21,8 @@ class App extends Component {
       image: null,
       removedId: null,
       removedByData: [],
-      filter: ""
+      filter: "",
+      description: ""
     }
     this.handleMapClick = this.handleMapClick.bind(this)
     this.onMarkerClick = this.onMarkerClick.bind(this)
@@ -43,7 +44,8 @@ class App extends Component {
           end: e.endTime,
           id: e.id,
           categoryName: e.categoryName,
-          colour: e.colour
+          colour: e.colour,
+          description: e.description
         }))
         this.setState({
           markers
@@ -60,7 +62,8 @@ class App extends Component {
       removed: marker.title,
       featured: null,
       removedId: marker.id,
-      image: null
+      image: null,
+      description: marker.description
     })
 
     fetch(`http://192.168.43.212:8000/api/events/${marker.id}`)
@@ -120,7 +123,7 @@ class App extends Component {
           <div id = { "search" }><input type = "text" placeholder = "Cerca..." onChange = { this.search }/></div>
           <DayPicker onDayClick = { this.changeDate }/>
           {
-            this.state.markers.filter(({ title }) => title.toLowerCase().startsWith(this.state.filter)).map(e => (
+            this.state.markers.filter(({ title }) => title.toLowerCase().startsWith(this.state.filter) && !this.state.removedByData.includes(title) ).map(e => (
               <Link to = { `/events/${e.id}` } style={{ textDecoration: "none", color: "#471ea0"}} key = { e.id }>
                 <div
                   className = { "events-list" }
@@ -146,6 +149,7 @@ class App extends Component {
           disableDefaultUI = { true }
           >
           <InfoWindow
+            id = "infoWindow"
             position={{
               lat: this.state.infoLat,
               lng: this.state.infoLng,
@@ -172,7 +176,7 @@ class App extends Component {
                   }} />
                 :
                 <div onClick={() => this.props.history.push(`/events/${this.state.removedId}`)}>
-                  <span><img src = { this.state.image } id = "thumbnail" align = "middle"/></span><span style={{lineBreak: "loose", fontWeight: "700"}}>{this.state.removed}</span>
+                  <span><img src = { this.state.image } id = "thumbnail" align = "middle"/></span><span style={{lineBreak: "loose", fontWeight: "700"}}>{this.state.removed}<p style={{fontWeight: 200, margin: 0}}>{this.state.description.split(" ").slice(0, 10).join(" ")}{this.state.description.split(" ").length > 11 ? "..." : "" }</p></span>
                 </div>
             }
           </InfoWindow>
