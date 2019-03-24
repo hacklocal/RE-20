@@ -100,7 +100,6 @@ router.get(`/categories/:id?`, ({ params: { id } }, res) => {
 router.post("/users", ({ body }, res) => {
   body.password = hashPassword(`${body.password}`)
 
-  //todo verify base64 image and other fields
   pool.query(`SELECT email FROM Users WHERE email=${pool.escape(body.email)} or username=${pool.escape(body.username)}`, (err, results) => {
     if (err) {
       res.error(err)
@@ -140,30 +139,43 @@ router.post("/authentication", ({ body: { email, password } }, res) => {
 
 router.post("/events", authMiddleware, ({ body, token }, res) => {
   body.creatorId = token.id
-  const { assets } = body
+  const { assets, category } = body
   delete body.assets
+  delete body.category
 
-  //todo check event starttime and endtime
-  pool.query(`INSERT INTO Events SET ?`, body, (err, results) => {
+  pool.query(`SELECT id FROM Categories WHERE name=${pool.escape(category)}`, (err, results) => {
     if (err) {
       res.error(err)
     } else {
-      let assetsProcessed = 0
-      let error = false
-      assets.forEach((e, i, arr) => {
-        pool.query(`INSERT INTO Assets VALUES(DEFAULT, ${results.insertId}, FALSE, DEFAULT, ${pool.escape(e)});`, (err, results) => {
-          if (err) {
-            error = true
-          }
-          assetsProcessed++;
-          if (assetsProcessed === arr.length) {
-            if (error) {
-              res.error("Error creating assets for event.")
-            } else {
-              res.status(201).json({ message: "event created" })
-            }
-          }
-        })
+      console.log(results)
+      if (results.length === 1) {
+        body.categoryId = results[0].id
+      } else {
+        body.categoryId = 1
+      }
+
+      pool.query(`INSERT INTO Events SET ?`, body, (err, results) => {
+        if (err) {
+          res.error(err)
+        } else {
+          let assetsProcessed = 0
+          let error = false
+          assets.forEach((e, i, arr) => {
+            pool.query(`INSERT INTO Assets VALUES(DEFAULT, ${results.insertId}, FALSE, DEFAULT, ${pool.escape(e)});`, (err, results) => {
+              if (err) {
+                error = true
+              }
+              assetsProcessed++;
+              if (assetsProcessed === arr.length) {
+                if (error) {
+                  res.error("Error creating assets for event.")
+                } else {
+                  res.status(201).json({ message: "event created" })
+                }
+              }
+            })
+          })
+        }
       })
     }
   })
@@ -215,7 +227,6 @@ router.get(`/events/:id/assets`, ({ params: { id } }, res) => {
   })
 })
 
-//todo many checks :/
 router.post(`/events/:eventId/assets/:assetId`, authMiddleware, ({ params: { eventId, assetId }, token }, res) => {
   pool.query(`SELECT checked FROM Assets WHERE eventId=${pool.escape(eventId)} AND id=${pool.escape(assetId)};`, (err, data) => {
     if (err) {
