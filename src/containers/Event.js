@@ -5,8 +5,7 @@ class Event extends Component {
   render() {
     return (
       <div>
-      <Link to="/">Home</Link>
-      <h1>ID: { this.props.match.params.eventName }</h1>
+        <h1>ID: { this.props.match.params.eventName }</h1>
       </div>
     )
   }

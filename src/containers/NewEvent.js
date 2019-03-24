@@ -1,8 +1,8 @@
 import React, { Component } from "react"
-import { Map, GoogleApiWrapper } from 'google-maps-react'
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { apiKey } from "../const"
-
+import { styles } from "../styleMap"
 const KeyCodes = {
   enter: 13
 }
@@ -12,20 +12,17 @@ const delimiters = [KeyCodes.enter]
 class NewEvent extends Component {
   constructor(props) {
     super(props)
+    const urlParams = new URLSearchParams(window.location.search);
     this.state = {
       tags: [],
       image: {},
-      lat: null,
-      lng: null
+      lat: urlParams.get("lat"),
+      lng: urlParams.get("lng")
     }
   }
 
   componentDidMount() {
-    const urlParams = new URLSearchParams(window.location.search);
-    this.setState({
-      lat: urlParams.get("lat"),
-      lng: urlParams.get("lng")
-    })
+
   }
 
   handleUpload(e) {
@@ -111,13 +108,20 @@ class NewEvent extends Component {
               <Map
                 google = { this.props.google }
                 style = {{ width: "400px", height: "400px", borderRadius: "50%" }}
-                zoom = { 15 }
+                zoom = { 16 }
                 minZoom = { 11 }
                 initialCenter = {{
-                  lat,
-                  lng
+                  lat: this.state.lat,
+                  lng: this.state.lng
                 }}
-              />
+                styles={ styles }
+                disableDefaultUI = { true }
+              >
+                <Marker position={{
+                    lat: this.state.lat,
+                    lng: this.state.lng
+                }}/>
+              </Map>
             </form>
           </div>
         </form>
