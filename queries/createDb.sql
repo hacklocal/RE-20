@@ -2,6 +2,13 @@ CREATE DATABASE IF NOT EXISTS Hackathon;
 
 USE Hackathon;
 
+CREATE TABLE IF NOT EXISTS Categories (
+  id INT,
+  name VARCHAR(255) NOT NULL UNIQUE,
+  colour VARCHAR(9) NOT NULL UNIQUE,
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS Users (
   id INT AUTO_INCREMENT,
   email VARCHAR(255) NOT NULL UNIQUE,
@@ -19,15 +26,17 @@ CREATE TABLE IF NOT EXISTS Events (
   creatorId INT NOT NULL,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  longitude VARCHAR(15) NOT NULL,
   latitude VARCHAR(15) NOT NULL,
+  longitude VARCHAR(15) NOT NULL,
   startTime TIMESTAMP NOT NULL DEFAULT NOW(),
   endTime TIMESTAMP NOT NULL DEFAULT NOW(),
   requiredAssets TINYINT NOT NULL DEFAULT 0,
-  maxPartecipants TINYINT,
+  maxParticipants TINYINT,
+  categoryId INT,
   image LONGTEXT,
   PRIMARY KEY (id),
   FOREIGN KEY (creatorId) REFERENCES Users(id),
+  FOREIGN KEY (categoryId) REFERENCES Categories(id),
   CHECK (startTime <= endTime)
 );
 

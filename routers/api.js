@@ -59,7 +59,31 @@ router.get(`/users/:id/events`, ({ params: { id } }, res) => {
 })
 
 router.get(`/events/:id/users`, ({ params: { id } }, res) => {
-  pool.query(`SELECT userId, eventId FROM Users_Events_th WHERE eventId=${pool.escape(id)};`, (err, data) => {
+  const query = `
+    SELECT u.id, u.email, u.username, u.name, u.phone, u.bio, u.image
+    FROM Users_Events_th AS th
+    INNER JOIN Users AS u
+    ON u.id = th.userId
+    WHERE eventId=${pool.escape(id)};
+  `
+  pool.query(query, (err, data) => {
+    if (err) {
+      res.error(err)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+router.get(`/categories/:id?`, ({ params: { id } }, res) => {
+  if (typeof id !== "undefined") {
+    return pool.query(`SELECT * FROM Categories WHERE id=${pool.escape(id)};`, (err, data) => {
+      if (err) res.error(err)
+      else res.json(data[0])
+    })
+  }
+
+  pool.query(`SELECT * FROM Categories;`, (err, data) => {
     if (err) {
       res.error(err)
     } else {
