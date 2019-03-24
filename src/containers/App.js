@@ -18,7 +18,8 @@ class App extends Component {
       infoLng: 10.623389,
       newEvent: false,
       removed: [],
-      image: null
+      image: null,
+      removedId: null
     }
     this.handleMapClick = this.handleMapClick.bind(this)
     this.onMarkerClick = this.onMarkerClick.bind(this)
@@ -26,27 +27,14 @@ class App extends Component {
     this.mouseLeave = this.mouseLeave.bind(this)
   }
 
-  fakeEvents = [
-    { lat: 44.701345973205605, lng: 10.623389, title: "Pizzata" },
-    { lat: 44.694094, lng: 10.616430, title: "Cena" },
-    { lat: 44.688608, lng: 10.638696, title: "Partita bella" },
-    { lat: 44.702015, lng: 10.648172, title: "Kangarou" },
-    { lat: 44.694285, lng: 10.635184, title: "Evento Divertente" },
-    { lat: 44.695742, lng: 10.632566, title: "Nonna clustrofobica" },
-    { lat: 44.697328, lng: 10.628811, title: "Ajeje Brazorf" },
-    { lat: 44.698457, lng: 10.625238, title: "Guatemala" },
-    { lat: 44.6985847, lng: 10.6239762, title: "Pinnacolo" },
-    { lat: 44.6983888, lng: 10.6240057, title: "Bosnia" },
-  ]
-
   componentDidMount() {
     fetch("http://192.168.43.212:8000/api/events")
       .then(res => res.json())
       .then(data => {
         const markers = data.map(e => ({
           title: e.name,
-          lat: +e.latitude,
-          lng: +e.longitude,
+          lat: parseFloat(e.latitude),
+          lng: parseFloat(e.longitude),
           start: e.startTime,
           end: e.endTime,
           id: e.id
@@ -56,19 +44,18 @@ class App extends Component {
           markers,
           image
         })
-      console.log(this.state.markers);
     })
-    // this.setState({markers: this.fakeEvents})
   }
 
-  onMarkerClick = (props, marker, e) => {
+  onMarkerClick = (marker) => {
     this.setState({
-      infoLat: marker.position.lat(),
-      infoLng: marker.position.lng(),
+      infoLat: marker.lat,
+      infoLng: marker.lng,
       infoShow: true,
       newEvent: false,
-      removed: [marker.title],
-      featured: null
+      removed: marker.title,
+      featured: null,
+      removedId: marker.id
     })
   }
 
@@ -78,7 +65,8 @@ class App extends Component {
       infoLng: clickEvent.latLng.lng(),
       infoShow: true,
       newEvent: true,
-      removed: []
+      removed: [],
+      removedId: null
     })
   }
 
@@ -99,7 +87,7 @@ class App extends Component {
           <DayPicker />
           {
             this.state.markers.map(e => (
-              <Link to = { `/event/${e.title}` } style={{ textDecoration: "none", color: "#471ea0"}} key = { e.id }>
+              <Link to = { `/events/${e.id}` } style={{ textDecoration: "none", color: "#471ea0"}} key = { e.id }>
                 <div
                   onMouseLeave = { () => this.mouseLeave(e) }
                   onMouseEnter = { () => this.mouseEnter(e) }>
@@ -135,7 +123,7 @@ class App extends Component {
               this.state.newEvent ?
                 <input type="button" value="Add new Event" onClick={() => this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)} />
                 :
-                <div onClick={() => this.props.history.push(`/event/${this.state.removed}`)}>
+                <div onClick={() => this.props.history.push(`/events/${this.state.removedId}`)}>
                   <img src = {`data:image/png;base64, ${this.state.image}`}/><span>{this.state.removed}</span>
                 </div>
             }
@@ -143,15 +131,14 @@ class App extends Component {
 
           {
             !this.state.featured ?
-            this.state.markers.filter(e => !this.state.removed.includes(e.title)).map((e, i) => {
-              console.log(e.id, e.title, typeof e.lat, typeof e.lng)
+            this.state.markers.filter(e => !this.state.removed.includes(e.title)).map(e => {
               return(
                   <Marker
                     key = { e.id }
                     title = { e.title }
                     name = { e.title }
                     position = {{lat: e.lat, lng: e.lng}}
-                    onClick = { this.onMarkerClick }
+                    onClick = { () => this.onMarkerClick(e) }
                     />
             )
           })
