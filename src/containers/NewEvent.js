@@ -55,7 +55,11 @@ class NewEvent extends Component {
       endTime: +new Date(this.state.endTime),
       category: this.state.category,
       image: this.state.image.base64
-    }, sessionStorage.getItem("token")).then(console.log)
+    }, sessionStorage.getItem("token")).then(data => {
+      console.log(data)
+      this.props.history.push("/")
+    })
+    .catch()
   }
 
   handleTextboxUpdate({ target: { id, value } }) {
@@ -159,14 +163,12 @@ class NewEvent extends Component {
                 </legend>
                 <input type="datetime-local" onChange = { event => this.setState({ endTime: event.target.value }) }/>
               </fieldset>
-              <input type="submit"  onClick = { this.handleSubmit.bind(this) } value="Submit"/>
+              <input type="submit" id="submitButton" onClick = { this.handleSubmit.bind(this) } value="Submit"/>
             </form>
               <div id = { "map" }>
                 <Map
                   google = { this.props.google }
                   style = {{
-                    width: "400px",
-                    height: "400px",
                     borderRadius: "50%",
                     border: "1px solid black"
                   }}
