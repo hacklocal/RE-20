@@ -3,6 +3,7 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { apiKey } from "../const"
 import { styles } from "../styleMap"
+import { createEvent } from "../helpers/api.js"
 const KeyCodes = {
   enter: 13
 }
@@ -14,19 +15,19 @@ class NewEvent extends Component {
     super(props)
     const urlParams = new URLSearchParams(window.location.search);
     this.state = {
+      name: "",
+      description: "",
       tags: [],
       image: {},
+      category: "Sport",
       lat: urlParams.get("lat"),
-      lng: urlParams.get("lng")
+      lng: urlParams.get("lng"),
+      startDate: null,
+      endTime: null
     }
   }
 
-  componentDidMount() {
-
-  }
-
   handleUpload(e) {
-    console.log("ciao")
     const { name, type } = e.target.files[0]
     const reader = new window.FileReader()
     reader.readAsDataURL(e.target.files[0])
@@ -39,6 +40,35 @@ class NewEvent extends Component {
         }
       })
     }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    console.log({
+      name: this.state.name,
+      description: this.state.description,
+      latitude: this.state.lat,
+      longitude: this.state.lng,
+      requiredAssets: this.state.tags.length,
+      assets: this.state.tags.map(({ id }) => id),
+      startTime: +new Date(this.state.startTime),
+      endTime: +new Date(this.state.endTime),
+      category: this.state.category,
+      image: this.state.image.base64
+    })
+  }
+
+  handleTextboxUpdate({ target: { id, value } }) {
+    const state = {}
+    state[id] = value
+    this.setState(state)
+  }
+
+  handleSelection(event) {
+    const index = event.nativeEvent.target.selectedIndex
+    this.setState({
+      category: event.nativeEvent.target[index].text
+    })
   }
 
   handleDelete(i) {
@@ -66,7 +96,6 @@ class NewEvent extends Component {
 
 
   render() {
-    const { lat, lng } = this.state
     return (
       <div id = { "new-event" }>
         <form>
@@ -76,8 +105,8 @@ class NewEvent extends Component {
                 <legend>
                   <span className = { "number" }>1</span> Informazioni:
                 </legend>
-                <input type = { "text" } placeholder = { "Nome" }/>
-                <textarea placeholder = { "Descrizione" }/>
+                <input id = { "name" } value = { this.state.name } onChange = { this.handleTextboxUpdate.bind(this) } type = { "text" } placeholder = { "Nome" }/>
+                <textarea id = { "description" } onChange = { this.handleTextboxUpdate.bind(this) } value = { this.state.description } placeholder = { "Descrizione" }/>
               </fieldset>
               <fieldset>
                 <legend>
@@ -96,7 +125,7 @@ class NewEvent extends Component {
                 <legend>
                   <span className = { "number" }>3</span> Categoria:
                 </legend>
-                <select>
+                <select onChange = { this.handleSelection.bind(this) }>
                   <option>Sport</option>
                   <option>Social</option>
                   <option>Arte e Cultura</option>
@@ -111,17 +140,36 @@ class NewEvent extends Component {
                 </legend>
                 <input type = { "file" } onChange = { this.handleUpload.bind(this) }/>
                 {
+                  /*
                   this.state.image &&
                     <div id = { "thumb-container" }>
                       <img src = { this.state.image.base64 } id = { "thumb" }/>
-                    </div>
+                    </div>*/
                 }
               </fieldset>
-              <input type="submit" value="Submit"/>
-              <div style={{textAlign: "center", justifyContent: "center"}}>
+              <fieldset>
+                <legend>
+                  <span className="number">5</span> Data e ora di inizio:
+                </legend>
+                <input type="datetime-local" onChange = { event => this.setState({ startTime: event.target.value }) }/>
+              </fieldset>
+              <fieldset>
+                <legend>
+                  <span className="number">6</span> Data e ora di fine:
+                </legend>
+                <input type="datetime-local" onChange = { event => this.setState({ endTime: event.target.value }) }/>
+              </fieldset>
+              <input type="submit"  onClick = { this.handleSubmit.bind(this) } value="Submit"/>
+            </form>
+              <div id = { "map" }>
                 <Map
                   google = { this.props.google }
-                  style = {{ width: "400px", height: "400px", borderRadius: "50%" }}
+                  style = {{
+                    width: "400px",
+                    height: "400px",
+                    borderRadius: "50%",
+                    border: "1px solid black"
+                  }}
                   zoom = { 16 }
                   minZoom = { 11 }
                   initialCenter = {{
@@ -137,7 +185,6 @@ class NewEvent extends Component {
                   }}/>
                 </Map>
             </div>
-            </form>
           </div>
         </form>
       </div>

@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import {Map} from "google-maps-react";
 import logo from "../assets/logo.png"
 import { chunk } from "../helpers/utils.js"
-import { getEvent, getEventPartecipants, getEventAssets } from "../helpers/api.js"
+import { getEvent, getEventPartecipants, getEventAssets, postAsset, attendEvent } from "../helpers/api.js"
 import { Row, Col } from "react-bootstrap"
 class Event extends Component {
   constructor(props) {
@@ -12,18 +12,51 @@ class Event extends Component {
       description: "",
       image: "",
       partecipants: [],
-      assets: []
+      assets: [],
+      selectedAssets: {}
     }
   }
 
   componentDidMount() {
-    getEvent(1).then(({ name, description, image }) => this.setState({ name, description, image }))
-    getEventPartecipants(1).then(partecipants => this.setState({ partecipants }))
-    getEventAssets(1).then(assets => assets.map(({ name }) => (name))).then(assets => this.setState({ assets }))
+    const id = document.URL.split("/")[4]
+    getEvent(id).then(({ name, description, image }) => this.setState({ name, description, image }))
+    getEventPartecipants(id).then(partecipants => this.setState({ partecipants }))
+    getEventAssets(id)
+      .then(assets => assets.map(({ name, id, checked }) => ({ name, id, checked })))
+      .then(assets => {
+        const selectedAssets = {}
+        assets.forEach(({ id }) => selectedAssets[id] = false)
+        this.setState({ assets, selectedAssets })
+      })
+  }
+
+  handleCheckboxUpdate(event) {
+    const { selectedAssets } = this.state
+    const { id } = event.target
+    selectedAssets[id] = !selectedAssets[id]
+    this.setState({
+      selectedAssets
+    })
+  }
+
+  handleSubmit(e) {
+    const eventId = document.URL.split("/")[4]
+    e.preventDefault()
+    const selectedAssets = Object.entries(this.state.selectedAssets).map(asset => {
+      if (asset[1]) {
+        return asset[0]
+      }
+    }).filter(e => e).map(e => parseInt(e))
+    if(this.selectedAssets) {
+      selectedAssets.map(asset => postAsset(eventId, asset))
+      Promise.all([...selectedAssets, attendEvent(eventId)]).then(console.log)
+    } else {
+      attendEvent(eventId).then(console.log)
+    }
+    this.props.history.push("/")
   }
 
   render() {
-    console.log(this.state.assets)
     return (
       <div id = { "event" }>
         <div id = { "image-container" }><img src = { this.state.image } id = { "image" }/></div>
@@ -36,10 +69,16 @@ class Event extends Component {
                   <span className = { "number" }>✤</span> Scegli come contribuire:
                 </legend>
                 {
-                  this.state.assets.map((asset, i) => (
-                    <div className = {"inputGroup"}>
-                      <input id = {`option-${i + 1}`} type = {"checkbox"}/>
-                      <label htmlFor = {`option-${i + 1}`}>{asset}</label>
+                  this.state.assets.map(({ name, id, checked }) => (
+                    <div className = { "inputGroup" }>
+                      <input
+                        id = { id }
+                        type = { "checkbox" }
+                        checked = { this.state.selectedAssets[id] || checked}
+                        onChange = { this.handleCheckboxUpdate.bind(this) }
+                        disabled = { checked }
+                      />
+                      <label htmlFor = { id }>{name}</label>
                     </div>
                   ))
                 }
@@ -59,7 +98,7 @@ class Event extends Component {
           }
         </div>
         <div id = { "submit" }>
-          <input type="submit" value="Partecipa"/>
+          <input type="submit" onClick = { this.handleSubmit.bind(this) } value="Partecipa"/>
         </div>
         {/*
         <Map

@@ -18,7 +18,7 @@ ReactDOM.render(
     <Title />
     <Route exact path = { "/login" } component = { Login }/>
     <Route exact path="/" component={ App } />
-    <Route path="/event/:eventName" render={(props) => <Event {...props} />}/>
+    <Route path="/events/:event" render={(props) => <Event {...props} />}/>
     <Route exact path="/new-event" render={ props => <NewEvent {...props} />}/>
   </Router>
   , document.getElementById('root'));

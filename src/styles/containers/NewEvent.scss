@@ -7,15 +7,14 @@ body {
   max-width: 500px;
   min-height: 850px;
   background: #f4f7f8;
-  margin: 10px auto;
+  margin: 30px auto;
   padding: 20px;
   border-radius: 8px;
-  height: 900px;
 }
 
 fieldset{
   border: none;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 legend {
@@ -33,7 +32,7 @@ select{
   height:35px;
 }
 
-input[type="text"], input[type="email"], input[type="number"], .ReactTags__tagInputField, textarea, select {
+input[type="text"], input[type="email"], input[type="number"], input[type="datetime-local"], .ReactTags__tagInputField, textarea, select {
   border: none;
   border-radius: 4px;
   font-size: 15px;
@@ -53,6 +52,11 @@ input[type="text"], input[type="email"], input[type="number"], .ReactTags__tagIn
     background: #d2d9dd;
   }
 }
+
+input[type="datetime-local"] {
+  font-family: 'PT Sans', sans-serif;
+}
+
 
 .number {
   background: #471ea0;
@@ -80,7 +84,7 @@ input[type="submit"], input[type="button"] {
   width: 100%;
   border: 1px solid #471ea0;
   border-radius: 25px;
-  margin: 0 auto 10px;
+  margin: -15px auto 10px;
   cursor: pointer;
   &:hover {
     background: #5e25db;
@@ -117,4 +121,10 @@ input[type="submit"], input[type="button"] {
 #thumb {
   max-width: 450px;
   margin-top: 10px;
+}
+
+#map {
+  position: absolute;
+  top: 5%;
+  left: 70%;
 }
