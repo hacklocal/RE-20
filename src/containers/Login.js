@@ -1,17 +1,35 @@
 import React, { Component } from "react"
+import { login } from "../helpers/api.js"
 
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      buttonText: "Login"
     }
   }
+
   handleTextboxUpdate({ target: { type, value } }) {
     const state = {}
     state[type] = value
     this.setState(state)
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    login(this.state.email, this.state.password)
+      .then(({ token }) => {
+        if (token) {
+          sessionStorage.setItem("token", token)
+          this.props.history.push("/home")
+        } else {
+          this.setState({
+            buttonText: "Username o password errate. Ritenta."
+          })
+        }
+      })
   }
 
   render() {
@@ -30,7 +48,7 @@ class Login extends Component {
               </fieldset>
             ))
           }
-          <input type = { "submit" } value = { "Login" }/>
+          <input type = { "submit" } onClick = { this.handleSubmit.bind(this) } value = { this.state.buttonText }/>
         </form>
       </div>
     )
