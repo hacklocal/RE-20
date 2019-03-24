@@ -45,10 +45,10 @@ class Event extends Component {
       }
     }).filter(e => e).map(e => parseInt(e))
     if(this.selectedAssets) {
-      selectedAssets.map(asset => postAsset(eventId, asset))
+      selectedAssets.map(asset => postAsset(eventId, asset, sessionStorage.getItem("token")))
       Promise.all([...selectedAssets, attendEvent(eventId)]).then(console.log)
     } else {
-      attendEvent(eventId).then(console.log)
+      attendEvent(eventId, sessionStorage.getItem("token")).then(console.log)
     }
     this.props.history.push("/")
   }

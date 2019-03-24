@@ -55,7 +55,7 @@ class NewEvent extends Component {
       endTime: +new Date(this.state.endTime),
       category: this.state.category,
       image: this.state.image.base64
-    }).then(console.log)
+    }, sessionStorage.getItem("token")).then(console.log)
   }
 
   handleTextboxUpdate({ target: { id, value } }) {
