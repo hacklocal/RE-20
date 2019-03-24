@@ -22,7 +22,12 @@ router.get(`/events/:id?`, ({ params: { id } }, res) => {
     })
   }
 
-  pool.query(`SELECT id, name, creatorId, startTime, endTime, latitude, longitude FROM Events;`, (err, data) => {
+  const query = `
+    SELECT e.id, e.name, e.creatorId, e.startTime, e.endTime, e.latitude, e.longitude, c.name AS categoryName, c.colour
+    FROM Events AS e
+    INNER JOIN Categories AS c
+    ON e.categoryId = c.id;`
+  pool.query(query, (err, data) => {
     if (err) {
       res.error(err)
     } else {

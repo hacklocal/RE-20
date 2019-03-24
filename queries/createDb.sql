@@ -5,7 +5,7 @@ USE Hackathon;
 CREATE TABLE IF NOT EXISTS Categories (
   id INT,
   name VARCHAR(255) NOT NULL UNIQUE,
-  colour VARCHAR(9) NOT NULL UNIQUE,
+  colour VARCHAR(6) NOT NULL UNIQUE,
   PRIMARY KEY (id)
 );
 
