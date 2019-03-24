@@ -10,6 +10,7 @@ body {
   margin: 10px auto;
   padding: 20px;
   border-radius: 8px;
+  position: relative;
 }
 
 #image-container {
@@ -17,8 +18,8 @@ body {
 }
 
 #voter {
-  margin-left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  left: 30%;
 }
 
 #image {
@@ -101,11 +102,6 @@ input[type="submit"], input[type="button"] {
   &:hover {
     background: #5e25db;
   }
-}
-
-#voter {
-  text-align: center !important;
-  margin: 20px !important;
 }
 
 .inputGroup {
@@ -212,4 +208,10 @@ html {
 
 #submit {
   padding-top: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  #voter {
+    left: 20%
+  }
 }

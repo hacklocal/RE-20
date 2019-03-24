@@ -66,13 +66,15 @@ class Event extends Component {
       <div id = { "event" }>
         <div id = { "image-container" }><img src = { this.state.image } id = { "image" }/></div>
         <h1>{ this.state.name }</h1>
-        <ReactStars
-          count={5}
-          onChange={ (vote) => this.setState({ vote }) }
-          value = { this.state.vote }
-          size={40}
-          color2={ '#471ea0' }
-          />
+        <div id = "voter">
+          <ReactStars
+            count={5}
+            onChange={ (vote) => this.setState({ vote }) }
+            value = { this.state.vote }
+            size={40}
+            color2={ '#471ea0' }
+            />
+        </div>
         <textarea readOnly id = { "description" } value = { this.state.description }/>
           {
             this.state.assets.length ?
