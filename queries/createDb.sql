@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS Users (
   name VARCHAR(255) NOT NULL,
   phone VARCHAR(15),
   bio TEXT,
+  address VARCHAR(255),
   image LONGTEXT,
   PRIMARY KEY (id)
 );
