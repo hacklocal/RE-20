@@ -163,7 +163,7 @@ class App extends Component {
             >
             {
               this.state.newEvent ?
-                <input type="button" id="addButton" value="Add new Event" onClick={() => {
+                <input type="button" id="addButton" value="Nuovo Evento" onClick={() => {
                     if(window.sessionStorage.getItem("token")) {
                       this.props.history.push(`/new-event?lat=${this.state.infoLat}&lng=${this.state.infoLng}`)
                     } else {
