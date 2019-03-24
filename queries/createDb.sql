@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS Events (
   startTime TIMESTAMP NOT NULL DEFAULT NOW(),
   endTime TIMESTAMP NOT NULL DEFAULT NOW(),
   requiredAssets TINYINT NOT NULL DEFAULT 0,
+  maxPartecipants TINYINT,
   image LONGTEXT,
   PRIMARY KEY (id),
   FOREIGN KEY (creatorId) REFERENCES Users(id),

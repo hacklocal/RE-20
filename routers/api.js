@@ -22,7 +22,7 @@ router.get(`/events/:id?`, ({ params: { id } }, res) => {
     })
   }
 
-  pool.query(`SELECT id, creatorId, startTime, endTime, latitude, longitude FROM Events;`, (err, data) => {
+  pool.query(`SELECT id, name, creatorId, startTime, endTime, latitude, longitude FROM Events;`, (err, data) => {
     if (err) {
       res.error(err)
     } else {
