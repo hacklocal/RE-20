@@ -154,6 +154,9 @@ router.post("/events", authMiddleware, ({ body, token }, res) => {
         body.categoryId = 1
       }
 
+      body.startTime = `${new Date(body.startTime).toJSON()}`.slice(0, 19).replace('T', ' ')
+      body.endTime = `${new Date(body.endTime).toJSON()}`.slice(0, 19).replace('T', ' ')
+
       pool.query(`INSERT INTO Events SET ?`, body, (err, results) => {
         if (err) {
           res.error(err)
@@ -183,15 +186,26 @@ router.post("/events", authMiddleware, ({ body, token }, res) => {
 
 router.delete("/events/:id", authMiddleware, ({ params: { id }, token }, res) => {
   //todo check event starttime and endtime (event must not be expired)
-  pool.query(`DELETE FROM Events WHERE id = ${pool.escape(id)} AND creatorId = ${token.id}`, (err, results) => {
-    if (err) {
-      res.error(err)
-    } else {
-      if (results.affectedRows)
-        res.status(201).json({ message: "event deleted" })
-      else
-        res.error(`no event with id ${id} and creatorId ${token.id} exists`)
+  pool.query(`SELECT creatorId FROM Events WHERE id = ${pool.escape(id)};`, (err0, results) => {
+    if (err0 || results.length === 0) {
+      return res.error("Non va")
+    } else if (!(results[0].creatorId === token.id)) {
+      return res.error(400)
     }
+    pool.query(`DELETE FROM Assets WHERE eventId = ${pool.escape(id)};`, (err1, results) => {
+      pool.query(`DELETE FROM Users_Events_th WHERE eventId = ${pool.escape(id)}`, (err2, results) => {
+        pool.query(`DELETE FROM Events WHERE id = ${pool.escape(id)} AND creatorId = ${token.id}`, (err, results) => {
+          if (err || err1 || err2) {
+            res.error(err)
+          } else {
+            if (results.affectedRows)
+              res.status(201).json({ message: "event deleted" })
+            else
+              res.error(`no event with id ${id} and creatorId ${token.id} exists`)
+          }
+        })
+      })
+    })
   })
 })
 

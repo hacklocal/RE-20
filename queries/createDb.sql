@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS Events (
   creatorId INT NOT NULL,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  latitude VARCHAR(15) NOT NULL,
-  longitude VARCHAR(15) NOT NULL,
+  latitude VARCHAR(31) NOT NULL,
+  longitude VARCHAR(31) NOT NULL,
   startTime TIMESTAMP NOT NULL DEFAULT NOW(),
   endTime TIMESTAMP NOT NULL DEFAULT NOW(),
   requiredAssets TINYINT NOT NULL DEFAULT 0,
@@ -36,8 +36,7 @@ CREATE TABLE IF NOT EXISTS Events (
   image LONGTEXT,
   PRIMARY KEY (id),
   FOREIGN KEY (creatorId) REFERENCES Users(id),
-  FOREIGN KEY (categoryId) REFERENCES Categories(id),
-  CHECK (startTime <= endTime)
+  FOREIGN KEY (categoryId) REFERENCES Categories(id)
 );
 
 CREATE TABLE IF NOT EXISTS Users_Events_th (
