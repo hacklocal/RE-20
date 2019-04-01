@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
+@import "./containers/Login.scss";
+@import "./containers/Event.scss";
+@import "./containers/NewEvent.scss";
+@import "./containers/Register.scss";
+
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("https://i.imgur.com/YkAfuGo.jpg");
+}
+
+h3 {
+  margin: 0px;
+  padding: 15px;
+  font-size: 1.1em;
+  border-top: 3px solid #471ea0;
+  box-shadow: 5px 5px 5px 3px #ccc;
+  text-transform: uppercase;
+}
+
+h3:hover {
+  color: #5e25db;
+}
+
+.container {
+  overflow: hidden;
+  position: relative;
+}
+
+#logo {
+  width: 150px;
+  margin-top: 25px;
+  margin-left: 25px;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+
+h2 {
+  color: #471ea0;
+  font-size: 1.35em;
+}
+
+.navBar {
+  width: 25vw;
+  height: 100vh;
+  background-color: #f4f7f8;
+  float: right;
+  text-align: center;
+  overflow: auto;
+}
+
+.mainMap {
+  width: 75vw !important;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  border-right: solid 1vw #471ea0;
+  box-shadow: 2px 4px 4px 4px #ccc;
+
+}
+
+#search {
+  border-radius: 25px;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+input[type="submit"], input[type="button"] {
+  position: relative;
+  display: block;
+  padding: 10px 39px 10px 39px;
+  color: #FFF;
+  background: #471ea0;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  width: 100%;
+  border: 1px solid #471ea0;
+  border-radius: 25px;
+  margin: 10px auto 10px;
+  cursor: pointer;
+  &:hover {
+    background: #5e25db;
+  }
+}
+
+#thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  float: left;
+  margin-right: 5px;
+}
+
+@media screen and (max-width: 500px) {
+  .navBar {
+    width: 100vw;
+    margin-top: 50vh;
+
+  }
+
+  #logo {
+    width: 75px;
+    margin: 0;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  .mainMap {
+    width: 100vw !important;
+    height: 50vh !important;
+    border-right: 0;
+    box-shadow: 0;
+  }
+
+  #addButton {
+    font-size: 0.75em;
+    width: 100px;
+    padding: 5px;
+  }
+}

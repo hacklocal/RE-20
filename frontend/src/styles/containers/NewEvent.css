@@ -1,0 +1,131 @@
+body {
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("http://mirafra.com/wp-content/uploads/2016/10/2214585-google-maps-wallpaper.jpg");
+  font-family: 'Roboto', sans-serif; }
+
+#form {
+  max-width: 500px;
+  min-height: 850px;
+  background: #f4f7f8;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 8px; }
+
+fieldset {
+  border: none;
+  margin-top: 5px; }
+
+legend {
+  font-size: 1.2em;
+  margin-bottom: 10px; }
+
+label {
+  display: block;
+  margin-bottom: 8px; }
+
+select {
+  -webkit-appearance: menulist-button;
+  height: 35px; }
+
+input[type="text"], input[type="email"], input[type="number"], input[type="datetime-local"], .ReactTags__tagInputField, textarea, select {
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  outline: 0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background: #e8eeef;
+  color: #828383;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  margin: 0 0 30px;
+  resize: vertical; }
+  input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="datetime-local"]:focus, .ReactTags__tagInputField:focus, textarea:focus, select:focus {
+    background: #d2d9dd; }
+
+input[type="datetime-local"] {
+  font-family: 'PT Sans', sans-serif; }
+
+.number {
+  background: #471ea0;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-radius: 15px 15px 15px 0px; }
+
+input[type="submit"], input[type="button"] {
+  position: relative;
+  display: block;
+  padding: 10px 39px 10px 39px;
+  color: #FFF;
+  background: #471ea0;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  width: 100%;
+  border: 1px solid #471ea0;
+  border-radius: 25px;
+  margin: -15px auto 10px;
+  cursor: pointer; }
+  input[type="submit"]:hover, input[type="button"]:hover {
+    background: #5e25db; }
+
+.ReactTags__tags {
+  position: relative;
+  border-radius: 50%; }
+
+.ReactTags__tag {
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  background: #e8eeef;
+  color: #828383;
+  font-size: 15px;
+  display: inline-block;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  margin-left: 5px; }
+
+.ReactTags__selected, .ReactTags__remove {
+  color: #aaa;
+  margin-left: 5px;
+  cursor: pointer; }
+
+#thumb-container {
+  text-align: center; }
+
+#thumb {
+  max-width: 450px;
+  margin-top: 10px; }
+
+#map {
+  position: absolute;
+  top: 5%;
+  left: 70%;
+  width: 400px;
+  height: 400px; }
+
+@media screen and (max-width: 500px) {
+  #map {
+    width: 300px !important;
+    height: 300px !important;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 100px; }
+  #submitButton {
+    float: left;
+    height: 50px;
+    width: 250px;
+    margin-top: 350px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 2px; } }
