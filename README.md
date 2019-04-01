@@ -1,5 +1,5 @@
 # RE-20
 
-Team: Zio Mons
+Nome Progetto: RE.20
 
-Composto da Matteo, Riccardo ed Emanuele
+Nome Team: Zio Mons (Matteo, Riccardo ed Emanuele)
